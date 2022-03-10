@@ -1,20 +1,5 @@
 package com.hodumaru.newsmaru.controller;
 
-<<<<<<< HEAD
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
-public class UserController {
-
-    // 회원 로그인 페이지
-    @GetMapping("/user/login")
-    public String login() {
-        return "login";
-    }
-
-
-=======
 import com.hodumaru.newsmaru.dto.SignupDto;
 import com.hodumaru.newsmaru.model.User;
 import com.hodumaru.newsmaru.service.UserService;
@@ -37,6 +22,12 @@ import java.time.LocalDate;
 public class UserController {
 
     private final UserService userService;
+
+    // 회원 로그인 페이지
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/signup")
     public String signupForm(@ModelAttribute("user") SignupDto signupDto) {
@@ -66,5 +57,4 @@ public class UserController {
         userService.create(user);
         return "redirect:/";
     }
->>>>>>> main
 }
