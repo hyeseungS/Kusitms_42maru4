@@ -5,8 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -34,4 +32,12 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private Date birthday;
 
+    public User(String username, String email, String password, int gender, Date birthday ) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.birthday = birthday;
+
+    }
 }
