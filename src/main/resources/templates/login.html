@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/header.css">
+    <title>로그인</title>
+    <style>
+        .container {
+            margin-top: 70px;
+        }
+        .head {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        form {
+            width: 311px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .other-group {
+            width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+        }
+        .form-control {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            border-radius: 10px;
+            height: 60px;
+        }
+        .error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        .btn {
+            margin-top: 20px;
+            width: 100%;
+            height: 55px;
+            color: #ffffff;
+            background: rgba(23, 162, 184, 0.7);
+        }
+        .btn:hover {
+            color: #ffffff;
+            background: #17A2B8;
+        }
+        .register-title {
+            font-size: 14px;
+        }
+        .register-btn {
+            font-size: 14px;
+            color: #17A2B8;
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<!-- 헤더 -->
+<div class="header">
+    <div class="logo">42MARU X 호두마루</div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">뉴스 등록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">뉴스 보기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">MY 뉴스</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page">로그인</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- 로그인 폼-->
+<div class="container">
+    <div class="head text-center">로그인</div>
+    <form action="/user/login" method="post">
+        <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="이메일">
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="비밀번호">
+        </div>
+        <button class="btn">로그인</button>
+    </form>
+    <div class="other-group">
+        <span class="register-title">아직 회원이 아니신가요? </span>
+        <a class="register-btn" href="/user/signup">가입하기</a>
+    </div>
+    <div class="other-group">
+        <div id="login-failed" style="display:none" class="error" role="alert">로그인에 실패하였습니다.</div>
+    </div>
+</div>
+</body>
+<script>
+    const href = location.href;
+    const queryString = href.substring(href.indexOf("?")+1)
+    if (queryString === 'error') {
+        const errorDiv = document.getElementById('login-failed');
+        errorDiv.style.display = 'block';
+    }
+</script>
+</html>
