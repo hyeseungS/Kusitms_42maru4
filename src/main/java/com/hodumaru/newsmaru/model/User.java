@@ -3,7 +3,7 @@ package com.hodumaru.newsmaru.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class User extends Timestamped {
     private int gender;
 
     @Column(nullable = false)
-    private Date birthday;
+    private LocalDate birthday;
 
     public User(String username, String email, String password, int gender, Date birthday ) {
         this.username = username;
