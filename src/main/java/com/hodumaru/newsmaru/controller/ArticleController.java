@@ -1,11 +1,13 @@
 package com.hodumaru.newsmaru.controller;
 
 import com.hodumaru.newsmaru.dto.ArticleRequestDto;
-import com.hodumaru.newsmaru.model.Article;
-import com.hodumaru.newsmaru.model.CategoryEnum;
+import com.hodumaru.newsmaru.dto.NewsDetailDto;
+import com.hodumaru.newsmaru.model.*;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
 import com.hodumaru.newsmaru.service.ArticleService;
+import com.hodumaru.newsmaru.service.ClipService;
+import com.hodumaru.newsmaru.service.ViewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -13,10 +15,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -26,6 +27,8 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
+    private final ClipService clipService;
+    private ViewService viewService;
 
     // 뉴스 보기 페이지
     @GetMapping("/articles")
@@ -36,6 +39,36 @@ public class ArticleController {
         return "newsList";
     }
 
+    // 뉴스 상세 페이지
+    @GetMapping("/articles/{articleId}")
+    public String getNewsDetail(@PathVariable("articleId") Long articleId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        boolean isClipped = false;
+        Long userId = userDetails.getUser().getId();
+
+        // 스크랩 여부
+        Clip clip = clipService.findByUserIdAndArticleId(userId, articleId).orElse(null);
+        isClipped = (clip != null);
+        model.addAttribute("isClipped", isClipped);
+
+        // 뉴스 정보
+        Article article = articleRepository.findById(articleId).get();
+        NewsDetailDto newsDetailDto = NewsDetailDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .build();
+
+        model.addAttribute("NewsDetailDto", newsDetailDto);
+
+        // 조회 여부
+
+        // 태그 정보
+
+
+
+        return "newsDetail";
+    }
 
     // 뉴스 등록 페이지
     @GetMapping("/articles/new")
