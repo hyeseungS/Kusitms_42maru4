@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/header.css">
-    <title>뉴스 보기</title>
+    <title>MY 뉴스</title>
 </head>
 <body>
 <!-- 헤더 -->
@@ -20,10 +20,10 @@
                         <a class="nav-link" href="/articles/new">뉴스 등록</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">뉴스 보기</a>
+                        <a class="nav-link" href="/">뉴스 보기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/mynews">MY 뉴스</a>
+                        <a class="nav-link active" href="/mynews">MY 뉴스</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/user/logout">로그아웃</a>
@@ -34,9 +34,6 @@
     </nav>
 </div>
 <div class="header" style="position:relative;">
-    <div id="header-title-login-user">
-        <span th:text="${username}"></span>님의 뉴스 마루
-    </div>
 </div>
 </body>
 </html>
