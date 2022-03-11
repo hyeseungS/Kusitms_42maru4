@@ -1,7 +1,6 @@
 package com.hodumaru.newsmaru.model;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @NoArgsConstructor
