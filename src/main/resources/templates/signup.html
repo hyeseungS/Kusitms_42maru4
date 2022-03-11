@@ -63,14 +63,14 @@
                             <a class="nav-link" href="/articles/new">뉴스 등록</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/articles">뉴스 보기</a>
+                            <a class="nav-link" href="/articles">뉴스 보기</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/mynews">MY 뉴스</a>
                         </li>
                         <li class="nav-item">
                             <a sec:authorize="isAuthenticated()" class="nav-link" href="/user/logout">로그아웃</a>
-                            <a sec:authorize="!isAuthenticated()" class="nav-link" href="/user/login">로그인</a>
+                            <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/user/login">로그인</a>
                         </li>
                     </ul>
                 </div>
