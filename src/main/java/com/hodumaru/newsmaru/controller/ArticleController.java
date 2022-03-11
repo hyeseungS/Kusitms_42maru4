@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
     private final ClipService clipService;
-    private ViewService viewService;
+    private final ViewService viewService;
 
     // 뉴스 보기 페이지
     @GetMapping("/articles")
@@ -39,16 +40,15 @@ public class ArticleController {
         return "newsList";
     }
 
-    // 뉴스 상세 페이지
+    @Transactional
     @GetMapping("/articles/{articleId}")
     public String getNewsDetail(@PathVariable("articleId") Long articleId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        boolean isClipped = false;
         Long userId = userDetails.getUser().getId();
 
         // 스크랩 여부
         Clip clip = clipService.findByUserIdAndArticleId(userId, articleId).orElse(null);
-        isClipped = (clip != null);
+        boolean isClipped = (clip != null);
         model.addAttribute("isClipped", isClipped);
 
         // 뉴스 정보
@@ -61,7 +61,11 @@ public class ArticleController {
 
         model.addAttribute("NewsDetailDto", newsDetailDto);
 
-        // 조회 여부
+        // 조회 여부 확인 및 생성
+        View view = viewService.findByUserIdAndArticleId(userId, articleId).orElse(null);
+        if(view == null) {
+            viewService.create(userId, articleId);
+        }
 
         // 태그 정보
 
