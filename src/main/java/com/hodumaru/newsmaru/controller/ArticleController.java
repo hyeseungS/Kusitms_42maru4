@@ -3,10 +3,12 @@ package com.hodumaru.newsmaru.controller;
 import com.hodumaru.newsmaru.dto.ArticleRequestDto;
 import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.model.CategoryEnum;
+import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
 import com.hodumaru.newsmaru.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +25,14 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final ArticleRepository articleRepository;
 
     // 뉴스 보기 페이지
     @GetMapping("/articles")
-    public String getNewsList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        model.addAttribute("username", userDetails.getUsername());
+    public String getNewsList(Model model) {
+        List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        if(articles != null)
+            model.addAttribute("articles", articles);
         return "newsList";
     }
 
