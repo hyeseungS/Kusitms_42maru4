@@ -3,14 +3,13 @@ package com.hodumaru.newsmaru.controller;
 import com.hodumaru.newsmaru.dto.SignupDto;
 import com.hodumaru.newsmaru.model.User;
 import com.hodumaru.newsmaru.service.UserService;
+import com.hodumaru.newsmaru.validator.EmailCheckValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -22,6 +21,13 @@ import java.time.LocalDate;
 public class UserController {
 
     private final UserService userService;
+    private final EmailCheckValidator emailCheckValidator;
+
+    /* 커스텀 유효성 검증을 위해 추가 */
+    @InitBinder
+    public void validatorBinder(WebDataBinder binder) {
+        binder.addValidators(emailCheckValidator);
+    }
 
     // 회원 로그인 페이지
     @GetMapping("/login")
@@ -37,7 +43,7 @@ public class UserController {
     @PostMapping("/signup")
     public String createUser(@Valid @ModelAttribute("user") SignupDto signupDto, BindingResult bindingResult) {
 
-        if(!signupDto.getPassword().equals(signupDto.getPasswordCheck())) {
+        if (!signupDto.getPassword().equals(signupDto.getPasswordCheck())) {
             log.info("비밀번호 확인 오류");
             bindingResult.rejectValue("passwordCheck", "", "비밀번호가 일치하지 않습니다.");
         }
