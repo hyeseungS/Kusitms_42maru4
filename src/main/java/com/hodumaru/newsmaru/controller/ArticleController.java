@@ -8,17 +8,22 @@ import com.hodumaru.newsmaru.security.UserDetailsImpl;
 import com.hodumaru.newsmaru.service.ArticleService;
 import com.hodumaru.newsmaru.service.ClipService;
 import com.hodumaru.newsmaru.service.ViewService;
+import com.hodumaru.newsmaru.summary.SummaryRequest;
+import com.hodumaru.newsmaru.summary.SummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Slf4j
@@ -40,6 +45,7 @@ public class ArticleController {
         return "newsList";
     }
 
+    // 뉴스 상세 페이지
     @GetMapping("/articles/{articleId}")
     public String getNewsDetail(@PathVariable("articleId") Long articleId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
@@ -71,6 +77,33 @@ public class ArticleController {
 
 
         return "newsDetail";
+    }
+
+    // 생성 요약 API 연동
+    @PostMapping("/articles/{articleId}/summarize")
+    @ResponseBody
+    public SummaryResponse getSummary(@PathVariable("articleId") Long articleId,
+                                      @RequestBody SummaryRequest request) {
+        String url = "http://kr.textsum.42maru.com/predict";
+        String username = "kusitms";
+        String password = "zest@42maru";
+
+        // Basic Auth 헤더 설정
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(
+                auth.getBytes(Charset.forName("US-ASCII")) );
+        String authHeader = "Basic " + new String(encodedAuth);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", authHeader);
+
+        // Post 요청
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.postForEntity(url, new HttpEntity<>(request, httpHeaders), String.class);
+        String body = response.getBody().replace("\"summaries\":[\"", "").replace("\"]", "");
+
+        SummaryResponse summaryResponse = new SummaryResponse(body, articleId);
+        return summaryResponse;
+
     }
 
     // 뉴스 등록 페이지
