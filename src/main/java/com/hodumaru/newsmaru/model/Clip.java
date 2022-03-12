@@ -25,4 +25,9 @@ public class Clip extends Timestamped {
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
+
+    public Clip(User user, Article article) {
+        this.user = user;
+        this.article = article;
+    }
 }
