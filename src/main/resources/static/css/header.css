@@ -29,3 +29,7 @@ body {
 .nav-link:active, .nav-link:hover, .active {
     border-bottom:  6px solid rgba(23, 162, 184, 0.5);
 }
+.link, .link:hover, .link:visited {
+    color: #000;
+    text-decoration: none;
+}
