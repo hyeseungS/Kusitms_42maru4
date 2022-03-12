@@ -81,7 +81,7 @@ public class ArticleController {
     }
 
     // 뉴스 등록하기
-    @PostMapping("/new")
+    @PostMapping("articles/new")
     public String addArticle(ArticleRequestDto articleRequestDto) {
 
         Article article = Article.builder()
