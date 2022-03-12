@@ -11,10 +11,11 @@ body {
     padding: 0 20px;
 }
 .logo {
-    font-weight: 500;
+    font-weight: 900;
     font-size: 24px;
     color: rgba(23, 162, 184, 0.7);
     width: 330px;
+    padding-left: 20px;
 }
 
 .nav-link {
@@ -23,7 +24,7 @@ body {
     border-bottom: 6px solid transparent;
     padding-bottom: 10px;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
 }
 .nav-link:active, .nav-link:hover, .active {
     border-bottom:  6px solid rgba(23, 162, 184, 0.5);

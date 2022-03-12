@@ -21,11 +21,16 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50000)
     private String content;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private CategoryEnum category;
 
+    public Article(String title, String content, CategoryEnum category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }

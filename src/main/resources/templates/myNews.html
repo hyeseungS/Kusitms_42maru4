@@ -7,6 +7,53 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/header.css">
     <title>MY 뉴스</title>
+    <style>
+    .container {
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+    .cropping{
+        max-height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cropping img{
+        max-height: initial;
+        margin-top: -15%;
+        opacity: 0.5;
+    }
+
+    .cropping head{
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        position: absolute;
+    }
+    label {
+        font-style: normal;
+        font-weight: 700;
+        line-height: 29px;
+        color: rgba(23, 162, 184, 0.7);;
+    }
+    .list-group {
+        margin-top: 30px;
+    }
+    .article-group {
+        border: 3px solid rgba(23, 162, 184, 0.7);
+        box-shadow: 5px 5px 5px 5px gainsboro;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        font-size: 12px;
+    }
+
+    </style>
+    <script>
+    </script>
 </head>
 <body>
 <!-- 헤더 -->
@@ -35,8 +82,29 @@
 </div>
 <!--  MY 뉴스  -->
 <div class="container">
-    <div id="header-title-login-user">
-        <span th:text="${username}"></span>님의 뉴스 마루
+    <div class="cropping">
+        <img src="images/hodumaru.jpg" alt="hodumaru"/>
+        <div class="head" id="header-title-login-user">
+            <span th:text="${username}"></span>님의 뉴스마루
+        </div>
+    </div>
+    <div class="list-group">
+        <label>조회 목록</label>
+        <div class="article-group"
+             th:each="view : ${views}"
+             th:value="${view.id}"
+             th:utext="${view.content}"
+             th:attr="onclick=|openArticle(${view.id})|">
+        </div>
+    </div>
+    <div class="list-group">
+        <label>스크랩 목록</label>
+        <div class="article-group"
+             th:each="clip : ${clips}"
+             th:value="${clip.id}"
+             th:utext="${clip.content}"
+             th:attr="onclick=|openArticle(${clip.id})|">
+        </div>
     </div>
 </div>
 </body>
