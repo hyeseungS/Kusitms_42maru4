@@ -67,10 +67,36 @@
             font-weight: 400;
             font-size: 18px;
             color: #17A2B8;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+<script>
+    function summarize(articleId) {
+        const content = document.getElementsByClassName("article-detail-content")[0];
+        $.ajax({
+            type: "POST",
+            url:  `${articleId}/summarize`,
+            data: JSON.stringify({
+                "net_input": [
+                    {
+                        "article": content.innerText
+                    }
+                ],
+                "extractive": false
+            }),
+            contentType: "application/json",
+            success: function (data) {
+                const summary = document.getElementsByClassName("summary")[0];
+                summary.innerText = JSON.stringify(data.summary).replace("\"{", "").replace("}\"", "");
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+    }
+</script>
 <!-- 헤더 -->
 <div class="header">
     <div class="logo">42MARU X 호두마루</div>
@@ -98,9 +124,10 @@
 </div>
 
 <div class="container">
+
     <!-- 버튼 -->
     <div class="btn-container">
-        <button class="btn" style="margin-right: 20px;">뉴스 요약</button>
+        <button class="btn" style="margin-right: 20px;" th:onclick="|summarize(${NewsDetailDto.id})|">뉴스 요약</button>
         <button class="btn" >워드 클라우드</button>
     </div>
 
@@ -126,9 +153,7 @@
     </div>
 
     <!-- 요약 내용 -->
-    <div class="summary">
-        요약 내용이 들어갈 공간
-    </div>
+    <div class="summary"></div>
 </div>
 </body>
 </html>
