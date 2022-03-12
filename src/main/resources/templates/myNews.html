@@ -21,20 +21,32 @@
             max-height: 200px;
             overflow: hidden;
             position: relative;
+            height: 200px;
         }
 
         .cropping img {
+            position: absolute;
             max-height: initial;
-            margin-top: -15%;
+            margin-top: -5%;
             opacity: 0.5;
+            vertical-align: middle;
         }
 
-        .cropping head {
-            font-size: 20px;
-            font-weight: 700;
+        .head {
             color: white;
             text-align: center;
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .head-username {
+            font-size: 40px;
+            color: teal;
         }
 
         label {
@@ -105,9 +117,9 @@
 <!--  MY 뉴스  -->
 <div class="container">
     <div class="cropping">
-        <img src="images/hodumaru.jpg" alt="hodumaru"/>
+        <img src="image/mynewsimg.jpg" alt="hodumaru"/>
         <div class="head" id="header-title-login-user">
-            <span th:text="${username}"></span>님의 뉴스마루
+            <span class="head-username" th:text="${username}"></span><span class="head-text"> 님의 뉴스마루</span>
         </div>
     </div>
     <div class="article-contatiner">
