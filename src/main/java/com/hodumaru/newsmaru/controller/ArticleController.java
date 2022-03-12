@@ -40,7 +40,6 @@ public class ArticleController {
         return "newsList";
     }
 
-    @Transactional
     @GetMapping("/articles/{articleId}")
     public String getNewsDetail(@PathVariable("articleId") Long articleId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
