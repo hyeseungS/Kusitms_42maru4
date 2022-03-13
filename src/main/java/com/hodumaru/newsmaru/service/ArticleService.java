@@ -1,12 +1,14 @@
 package com.hodumaru.newsmaru.service;
 
 import com.hodumaru.newsmaru.model.Article;
+import com.hodumaru.newsmaru.model.CategoryEnum;
 import com.hodumaru.newsmaru.model.Clip;
 import com.hodumaru.newsmaru.model.User;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.repository.ClipRepository;
 import com.hodumaru.newsmaru.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -53,5 +55,16 @@ public class ArticleService {
                 ageData.set(age/10-1, ageData.get(age/10-1)+1);
         }
         return ageData;
+    }
+
+    // 뉴스 검색
+    public List<Article> searchNews(CategoryEnum category, String sortProperty) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC, sortProperty);
+
+        if(category == null)
+            return articleRepository.findAll(sort);
+        else
+            return articleRepository.findByCategory(category, sort);
     }
 }
