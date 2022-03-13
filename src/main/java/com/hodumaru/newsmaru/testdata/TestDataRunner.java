@@ -41,7 +41,6 @@ public class TestDataRunner implements ApplicationRunner {
         // 테스트 User 생성
         User testUser1 = new User("호두마루", "hodu@maru.com", passwordEncoder.encode("123"), 1, LocalDate.now());
         testUser1 = userRepository.save(testUser1);
-
         // 테스트 Article 생성
         for(int i=1; i<=10; i++) {
             Article article = Article.builder()
@@ -80,5 +79,13 @@ public class TestDataRunner implements ApplicationRunner {
         view2 = viewRepository.save(view2);
         clip1 = clipRepository.save(clip1);
         clip2 = clipRepository.save(clip2);
+
+        // 테스트 그래프 데이터 생성
+        for(int i=1; i<=10; i++) {
+            User testUser = new User("user"+i, "user"+i+"@maru.com", passwordEncoder.encode("i"), 2, LocalDate.ofYearDay(1970+i*10, 10));
+            testUser = userRepository.save(testUser);
+            Clip clip = new Clip(testUser,article4);
+            clipRepository.save(clip);
+        }
     }
 }
