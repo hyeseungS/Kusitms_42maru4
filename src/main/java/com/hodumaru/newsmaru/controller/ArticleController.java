@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -77,8 +78,11 @@ public class ArticleController {
 
         // 태그 정보
 
-
-
+        // 그래프 데이터
+        List<Integer> genderData = articleService.getGenderData(articleId);
+        model.addAttribute("GenderDatas", genderData);
+        List<Integer> ageData = articleService.getAgeData(articleId);
+        model.addAttribute("AgeDatas", ageData);
         return "newsDetail";
     }
 

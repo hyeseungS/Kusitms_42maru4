@@ -15,4 +15,6 @@ public interface ClipRepository extends JpaRepository<Clip, Long> {
     Optional<Clip> findByUserIdAndArticleId(Long userId, Long ArticleId);
 
     void deleteByUserIdAndArticleId(Long userId, Long ArticleId);
+
+    List<Clip> findAllByArticleId(Long articleId);
 }
