@@ -3,21 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/header.css">
     <title>뉴스 보기</title>
     <style>
-        .article-list-container {
+        .container {
             min-width: 600px;
             max-width: 700px;
             width: 50%;
-            margin: 20px auto 0 auto;
+            margin: 10px auto;
+        }
+
+        /* 해시태그 검색 */
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            height: 43px;
+        }
+        input[type=text] {
+            width: 100%;
+            height: 100%;
+            margin-right: 10px;
+            border: 1px solid rgba(23, 162, 184, 0.7);
+            border-radius: 10px;
+        }
+        .search-btn {
+            width: 120px;
+            height: 100%;
+            color: #ffffff;
+            background: rgba(23, 162, 184, 0.7);
+        }
+        .btn:hover {
+            color: #ffffff;
+            background: #17A2B8;
+        }
+
+        /* 카테고리 라디오 버튼 */
+        .category {
+            margin-top: 28px;
+        }
+        .category-btn {
+            min-width: 80px;
+            height: 40px;
+            color: #ffffff;
+            background: rgba(23, 162, 184, 0.5);
+            border-radius: 20px;
+            margin: 0 8px 10px 0;
+            border: 1px solid rgba(23, 162, 184, 0.7);
+        }
+        .category input[type=radio]:checked + div {
+            background: #17A2B8;
+
+        }
+
+        /* 정렬 라디오 버튼 */
+        .sort {
+            display: flex;
+            font-weight: 500;
+            font-size: 14px;
+            margin-top: 28px;
+        }
+        .hidden {
+            display: none;
+        }
+        .sort label {
+            cursor: pointer;
+            display: flex;
+            margin-right: 16px;
+        }
+        .sort label div {
+            margin-top: 4px;
+            line-height: 24px;
+        }
+        .sort input[type=radio] + img {
+            color: rgba(0, 0, 0, 0.1);
+            margin-right: 12px;
+        }
+        .sort input[type=radio]:checked + img {
+            content: url("/images/mint-ellipse.svg");
+        }
+
+
+        /* 뉴스 목록 */
+        .article-list-container {
+            margin-top: 28px;
         }
         .article-container {
             display: block;
             background: #FFFFFF;
-            border: 1px solid #17A2B8;
+            border: 1px solid rgba(23, 162, 184, 0.7);
             box-sizing: border-box;
             border-radius: 10px;
             width: 100%;
@@ -41,7 +117,6 @@
             display: -webkit-box;
             -webkit-box-orient: vertical;
         }
-
     </style>
 </head>
 <body>
@@ -71,21 +146,68 @@
         </nav>
     </div>
 
-    <!-- 뉴스 검색 -->
+    <div class="container">
+        <script>
+            function search() {
+                let tag = document.getElementsByClassName("tag-input")[0].value;
+                let category = $('input[name=category]:checked').val();
+                let sort = $('input[name=sort]:checked').val();
 
-    <!-- 카테고리 필터링 -->
+                location.href = `/articles/search?tag=${tag}&category=${category}&sort=${sort}`;
+            }
+        </script>
 
-    <!-- 정렬 -->
+        <!-- 뉴스 검색 -->
+        <div class="form-group">
+            <input class="form-control tag-input" type="text" placeholder="해시태그를 검색해보세요!"/>
+            <button class="btn search-btn" onclick="search()">검색</button>
+        </div>
 
-    <!-- 뉴스 목록 -->
-    <div class="article-list-container">
-        <a class="article-container link" th:each="article : ${articles}"
-             th:href="@{/articles/{articleId}(articleId=${article.id})}">
-            <div class="article-title" th:text="${article.title}"></div>
-            <div class="article-content" th:text="${article.content}"></div>
-        </a>
+        <!-- 카테고리 필터링 -->
+        <div class="category">
+            <label>
+                <input class="hidden category-input" type="radio" name="category" value th:attr="checked=${checkedCategory} == null" onclick="search()"/>
+                <div class="btn category-btn">전체</div>
+            </label>
+            <label th:each="category : ${categories}">
+                <input class="hidden category-input" type="radio" name="category" th:attr="checked=${checkedCategory} == ${category}"
+                       th:value="${category}" onclick="search()"/>
+                <div class="btn category-btn" th:text="${category.getValue()}"></div>
+            </label>
+        </div>
+
+        <!-- 정렬 -->
+        <div class="sort">
+            <label>
+                <input class="hidden sort-input" type="radio" name="sort" value="createdAt"
+                       th:attr="checked=${sort} == 'createdAt'" onchange="search()"/>
+                <img src="/images/gray-ellipse.svg" />
+                <div>최신순</div>
+            </label>
+            <label>
+                <input class="hidden sort-input" type="radio" name="sort" value="viewCount"
+                       th:attr="checked=${sort} == 'viewCount'" onclick="search()"/>
+                <img src="/images/gray-ellipse.svg" />
+                <div>조회순</div>
+            </label>
+            <label>
+                <input class="hidden sort-input" type="radio" name="sort" value="clipCount"
+                       th:attr="checked=${sort} == 'clipCount'" onclick="search()"/>
+                <img src="/images/gray-ellipse.svg" />
+                <div>스크랩순</div>
+            </label>
+        </div>
+
+
+        <!-- 뉴스 목록 -->
+        <div class="article-list-container">
+            <a class="article-container link" th:each="article : ${articles}"
+                 th:href="@{/articles/{articleId}(articleId=${article.id})}">
+                <div class="article-title" th:text="${article.title}"></div>
+                <div class="article-content" th:text="${article.content}"></div>
+            </a>
+        </div>
     </div>
-
 
 </body>
 </html>
