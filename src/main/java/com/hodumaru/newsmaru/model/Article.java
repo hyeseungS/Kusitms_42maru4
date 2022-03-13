@@ -28,6 +28,12 @@ public class Article extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private CategoryEnum category;
 
+    @Column(name = "clip_count")
+    private int clipCount = 0;
+
+    @Column(name = "view_count")
+    private int viewCount = 0;
+
     public Article(String title, String content, CategoryEnum category) {
         this.title = title;
         this.content = content;
