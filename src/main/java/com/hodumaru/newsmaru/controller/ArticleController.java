@@ -4,6 +4,7 @@ import com.hodumaru.newsmaru.dto.ArticleRequestDto;
 import com.hodumaru.newsmaru.dto.NewsDetailDto;
 import com.hodumaru.newsmaru.model.*;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
+import com.hodumaru.newsmaru.repository.ArticleTagRepository;
 import com.hodumaru.newsmaru.repository.TagRepository;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
 import com.hodumaru.newsmaru.service.ArticleService;
@@ -31,6 +32,7 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -40,6 +42,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final ArticleRepository articleRepository;
     private final ArticleTagService articleTagService;
+    private final ArticleTagRepository articleTagRepository;
     private final TagRepository tagRepository;
     private final ClipService clipService;
     private final ViewService viewService;
@@ -91,9 +94,20 @@ public class ArticleController {
     // 뉴스 상세 페이지
     @GetMapping("/articles/{articleId}")
     public String getNewsDetail(@PathVariable("articleId") Long articleId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         Long userId = userDetails.getUser().getId();
 
+        // 뉴스 정보 model 속성에 추가
+        getNewsDetailData(articleId, model, userId);
+
+        // 그래프 데이터
+        List<Integer> genderData = articleService.getGenderData(articleId);
+        model.addAttribute("GenderDatas", genderData);
+        List<Integer> ageData = articleService.getAgeData(articleId);
+        model.addAttribute("AgeDatas", ageData);
+        return "newsDetail";
+    }
+
+    private void getNewsDetailData(Long articleId, Model model, Long userId) {
         // 스크랩 여부
         Clip clip = clipService.findByUserIdAndArticleId(userId, articleId).orElse(null);
         boolean isClipped = (clip != null);
@@ -117,13 +131,10 @@ public class ArticleController {
         }
 
         // 태그 정보
-
-        // 그래프 데이터
-        List<Integer> genderData = articleService.getGenderData(articleId);
-        model.addAttribute("GenderDatas", genderData);
-        List<Integer> ageData = articleService.getAgeData(articleId);
-        model.addAttribute("AgeDatas", ageData);
-        return "newsDetail";
+        List<Tag> tags = articleTagRepository.findByArticleId(articleId).stream()
+                                                .map(articleTag -> articleTag.getTag())
+                                                .collect(Collectors.toList());
+        model.addAttribute("tags", tags);
     }
 
     // 생성 요약 API 연동

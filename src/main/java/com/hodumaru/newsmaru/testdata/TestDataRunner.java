@@ -1,13 +1,10 @@
 package com.hodumaru.newsmaru.testdata;
 
 import com.hodumaru.newsmaru.model.*;
-import com.hodumaru.newsmaru.repository.ArticleRepository;
-import com.hodumaru.newsmaru.repository.ClipRepository;
+import com.hodumaru.newsmaru.repository.*;
 import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.model.CategoryEnum;
 import com.hodumaru.newsmaru.model.User;
-import com.hodumaru.newsmaru.repository.UserRepository;
-import com.hodumaru.newsmaru.repository.ViewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,20 +18,13 @@ import java.time.LocalDate;
 public class TestDataRunner implements ApplicationRunner {
 
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    ArticleRepository articleRepository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    ViewRepository viewRepository;
-
-    @Autowired
-    ClipRepository clipRepository;
+    @Autowired UserRepository userRepository;
+    @Autowired ArticleRepository articleRepository;
+    @Autowired PasswordEncoder passwordEncoder;
+    @Autowired ViewRepository viewRepository;
+    @Autowired ClipRepository clipRepository;
+    @Autowired TagRepository tagRepository;
+    @Autowired ArticleTagRepository articleTagRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -69,6 +59,19 @@ public class TestDataRunner implements ApplicationRunner {
 
         article3 = articleRepository.save(article3);
         article4 = articleRepository.save(article4);
+
+        // 해시태그
+        Tag tag1 = tagRepository.save(Tag.builder().name("NH농협은행").build());
+        Tag tag2 = tagRepository.save(Tag.builder().name("보증서").build());
+        Tag tag3 = tagRepository.save(Tag.builder().name("NH모바일전세대출").build());
+        Tag tag4 = tagRepository.save(Tag.builder().name("호두마루").build());
+        Tag tag5 = tagRepository.save(Tag.builder().name("42MARU").build());
+
+        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag1).build());
+        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag2).build());
+        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag3).build());
+        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag4).build());
+        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag5).build());
 
         // 테스트 View, Clip 생성
         View view1 = new View(testUser1, article3);

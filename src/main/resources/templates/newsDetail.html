@@ -79,7 +79,7 @@
             font-weight: 400;
             font-size: 18px;
             color: #17A2B8;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .line {
@@ -175,8 +175,9 @@
     <div style="display: flex; justify-content: space-between">
         <!-- 해시태그 -->
         <div class="tag-container">
-            <div class="tag"># 해시 태그</div>
+            <div class="tag" th:each="tag : ${tags}" th:text="|# ${tag.name}|"></div>
         </div>
+
         <!-- 스크랩 버튼 -->
         <a th:if="${isClipped} == true" th:href="@{/unclip/{articleId}(articleId=${NewsDetailDto.id})}">
             <img th:src="@{/image/fill-star.svg}"/>
