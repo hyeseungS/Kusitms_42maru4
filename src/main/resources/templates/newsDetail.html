@@ -94,13 +94,20 @@
         }
 
         .py-group {
-            margin: 40px 0px 30px 30px;
+            display: flex;
+            justify-content: center;
+            margin: 40px 0px 30px 0px;
         }
 
-        .py {
+        .py1 {
             display: inline-block;
-            margin-left: 30px;
-            width: 43%;
+            width: 32%;
+        }
+
+        .py2 {
+            display: inline-block;
+            margin-left: 50px;
+            width: 35%;
         }
     </style>
 </head>
@@ -194,11 +201,11 @@
     <hr class="line">
     <div class="chart">누가 스크랩을 했을까요?</div>
     <div class="py-group">
-        <div class="py">
-            <canvas id="chDonut1" width="210" height="210"></canvas>
+        <div class="py1">
+            <canvas id="chDonut1" width="300" height="300"></canvas>
         </div>
-        <div class="py">
-            <canvas id="chDonut2" width="290" height="290"></canvas>
+        <div class="py2">
+            <canvas id="chDonut2" width="300" height="300"></canvas>
         </div>
     </div>
 </div>
