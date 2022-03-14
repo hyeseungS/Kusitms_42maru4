@@ -9,6 +9,7 @@ import com.hodumaru.newsmaru.repository.ViewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -32,4 +33,8 @@ public class ViewService {
         return viewRepository.save(view);
     }
 
+    @Transactional
+    public void delete(Long userId, Long articleId) {
+        viewRepository.deleteByUserIdAndArticleId(userId, articleId);
+    }
 }

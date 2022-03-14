@@ -14,4 +14,6 @@ public interface ViewRepository extends JpaRepository<View, Long> {
     List<View> findAllByUserId(Long userId, Sort sort);
 
     Optional<View> findByUserIdAndArticleId(Long userId, Long ArticleId);
+
+    void deleteByUserIdAndArticleId(Long userId, Long articleId);
 }
