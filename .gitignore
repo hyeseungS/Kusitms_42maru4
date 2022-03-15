@@ -37,6 +37,6 @@ out/
 .vscode/
 
 application.yml
-application.properties
+application*.properties
 
 test/
