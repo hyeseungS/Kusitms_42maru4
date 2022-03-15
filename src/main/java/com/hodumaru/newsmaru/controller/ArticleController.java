@@ -16,6 +16,7 @@ import com.hodumaru.newsmaru.summary.SummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +47,12 @@ public class ArticleController {
     private final TagRepository tagRepository;
     private final ClipService clipService;
     private final ViewService viewService;
+
+    @Value("${summary-api-username}")
+    private String username;
+
+    @Value("${summary-api-password}")
+    private String password;
 
     // 뉴스 보기 페이지
     @GetMapping("/articles")
@@ -143,8 +150,6 @@ public class ArticleController {
     public SummaryResponse getSummary(@PathVariable("articleId") Long articleId,
                                       @RequestBody SummaryRequest request) {
         String url = "http://kr.textsum.42maru.com/predict";
-        String username = "kusitms";
-        String password = "zest@42maru";
 
         // Basic Auth 헤더 설정
         String auth = username + ":" + password;
