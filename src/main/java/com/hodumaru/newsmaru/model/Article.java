@@ -2,6 +2,7 @@ package com.hodumaru.newsmaru.model;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +22,8 @@ public class Article extends Timestamped {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 50000)
+    @Column(nullable = false)
+    @Size(max = 5000)
     private String content;
 
     @Column(nullable = false)
