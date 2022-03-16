@@ -188,6 +188,15 @@ public class ArticleController {
                 .build();
         articleService.addNews(article);
 
+        // 해시태그 받아오기
+//        String name;
+//        List<Tag> tags ;
+//        tags.add(Tag.builder()
+//                .name(name));
+//        if(tagRepository.existsByName(name))
+//            tagRepository.save(tag);
+//        articleTagRepository.save(ArticleTag.builder().article(article).tag(tag).build());
+
         return "redirect:/articles/new";
     }
 }
