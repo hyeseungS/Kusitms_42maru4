@@ -13,7 +13,7 @@
 
 이에 따라, **42MARU X 호두마루**는 **기계독해/요약모델 및 TextRank/공공 인공지능 오픈 API**를 활용하여 뉴스 키워드 추출과 함께 개인화된 뉴스 추천 서비스를 제공하고자 합니다.  
 
-### :pushpin: Development Environment / Language
+### :pushpin: Development Environment & Language
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/></a>
@@ -44,5 +44,7 @@
 
 ### :pushpin: URL
 http://newsmaru-env.eba-bummm8x4.ap-northeast-2.elasticbeanstalk.com/
+
+### :pushpin: Usage
 
 ### :pushpin: Reference
