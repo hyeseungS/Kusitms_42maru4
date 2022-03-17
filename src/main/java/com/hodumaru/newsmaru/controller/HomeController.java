@@ -22,6 +22,6 @@ public class HomeController {
         List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
         if(articles != null)
             model.addAttribute("articles", articles);
-        return "newsList";
+        return "redirect:/articles";
     }
 }
