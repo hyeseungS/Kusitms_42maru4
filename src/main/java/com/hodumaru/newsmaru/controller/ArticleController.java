@@ -185,13 +185,15 @@ public class ArticleController {
                 .build();
         articleService.addNews(article);
 
-        // 해시태그 추출해서 저장
-        List<String> kewords = new ArrayList<>();
+        // 해시태그 추출해서 저장 (파이썬)
+//        String url = "/extract/"+article.getId();
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(url, String.class);
 
+        // 해시태그 추출해서 저장 (자바)
+        List<String> kewords = new ArrayList<>();
         tagService.createTags(kewords);
         articleTagService.createArticleTags(article, kewords);
-
         return "redirect:/articles";
     }
-
 }
