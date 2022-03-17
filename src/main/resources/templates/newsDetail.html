@@ -185,11 +185,11 @@
 
         <!-- 스크랩 버튼 -->
         <a th:if="${isClipped} == true" th:href="@{/unclip/{articleId}(articleId=${NewsDetailDto.id})}">
-            <img th:src="@{/image/fill-star.svg}"/>
+            <img th:src="@{/images/fill-star.svg}"/>
         </a>
 
         <a th:if="${isClipped} == false" th:href="@{/clip/{articleId}(articleId=${NewsDetailDto.id})}">
-            <img th:src="@{/image/empty-star.svg}"/>
+            <img th:src="@{/images/empty-star.svg}"/>
         </a>
     </div>
 
@@ -276,6 +276,7 @@
         }
         /*]]>*/
     }
+
     chartData();
 
 </script>

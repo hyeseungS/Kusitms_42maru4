@@ -32,7 +32,7 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    public User(String username, String email, String password, int gender, LocalDate birthday ) {
+    public User(String username, String email, String password, int gender, LocalDate birthday) {
         this.username = username;
         this.email = email;
         this.password = password;

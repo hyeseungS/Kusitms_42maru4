@@ -20,7 +20,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        if(articles != null)
+        if (articles != null)
             model.addAttribute("articles", articles);
         return "redirect:/articles";
     }

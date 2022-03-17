@@ -3,7 +3,6 @@ package com.hodumaru.newsmaru.dto;
 import lombok.Data;
 
 import javax.validation.constraints.*;
-import java.time.LocalDate;
 
 @Data
 public class SignupDto {
@@ -16,7 +15,7 @@ public class SignupDto {
     private String email;
 
     @NotEmpty
-    @Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{6,12}",
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{6,12}",
             message = "비밀번호는 영문자와 숫자, 특수기호가 적어도 1개 이상 포함된 6자~12자여야 합니다.")
     private String password;
 

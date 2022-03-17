@@ -16,5 +16,4 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // 카테고리로 최신순 검색
     List<Article> findByCategory(CategoryEnum category, Sort sort);
 
-
 }

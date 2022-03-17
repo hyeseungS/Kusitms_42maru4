@@ -2,7 +2,6 @@ package com.hodumaru.newsmaru.controller;
 
 import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
-import com.hodumaru.newsmaru.service.ClipService;
 import com.hodumaru.newsmaru.service.MyNewsService;
 import com.hodumaru.newsmaru.service.ViewService;
 import lombok.RequiredArgsConstructor;
