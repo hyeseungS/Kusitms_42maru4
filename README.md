@@ -26,15 +26,21 @@
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/></a>
 
 ### :pushpin: Feature
-- 로그인
-
+- 로그인/회원가입
 - 뉴스 등록
-
 - 뉴스 보기
-
+  - 해시태그 검색
+  - 카테고리별 필터
 - 뉴스 상세보기
+  - 요약 모델
+  - 키워드 추출
+  - 워드 클라우드
+  - 스크랩
+  - 성별/연령별 스크랩 통계
 
 - MY 뉴스
+  - 회원별 조회/스크랩 목록 조회
+  - 조회 목록 삭제
 
 ### :pushpin: URL
 http://newsmaru-env.eba-bummm8x4.ap-northeast-2.elasticbeanstalk.com/
