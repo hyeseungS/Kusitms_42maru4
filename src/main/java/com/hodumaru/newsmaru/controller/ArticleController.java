@@ -133,8 +133,7 @@ public class ArticleController {
         // 조회 여부 확인
         View view = viewService.findByUserIdAndArticleId(userId, articleId).orElse(null);
         if(view == null) {
-            viewService.create(userId, articleId); // 조회 생성
-            article.setViewCount(article.getViewCount() + 1); //조회수 증가
+            viewService.create(userId, articleId);
         }
 
         // 태그 정보
@@ -178,7 +177,7 @@ public class ArticleController {
     }
 
     // 뉴스 등록하기
-    @PostMapping("articles/new")
+    @PostMapping("/articles/new")
     public String addArticle(ArticleRequestDto articleRequestDto) {
 
         Article article = Article.builder()
