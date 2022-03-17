@@ -186,19 +186,12 @@ public class ArticleController {
         articleService.addNews(article);
 
         // 해시태그 추출해서 저장
-//        List<String> kewords = new ArrayList<>();
-//        List<Tag> tags = new ArrayList<>();
-//        List<ArticleTag> articleTags = new ArrayList<>();
-//        for(String keword : kewords) {
-//            Tag tag = Tag.builder().name(keword).build();
-//            tags.add(tag);
-//            ArticleTag articleTag = ArticleTag.builder().article(article).tag(tag).build();
-//            articleTags.add(articleTag);
-//        }
-//        tagService.createTags(tags);
-//        articleTagService.createArticleTags(articleTags);
-//
-        return "redirect:/articles/new";
+        List<String> kewords = new ArrayList<>();
+
+        tagService.createTags(kewords);
+        articleTagService.createArticleTags(article, kewords);
+
+        return "redirect:/articles";
     }
 
 }

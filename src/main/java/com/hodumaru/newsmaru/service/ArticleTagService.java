@@ -3,12 +3,14 @@ package com.hodumaru.newsmaru.service;
 import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.model.ArticleTag;
 import com.hodumaru.newsmaru.model.CategoryEnum;
+import com.hodumaru.newsmaru.model.Tag;
 import com.hodumaru.newsmaru.repository.ArticleTagRepository;
 import com.hodumaru.newsmaru.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +30,14 @@ public class ArticleTagService {
             return articleTagRepository.findByTagIdAndCategory(tagId, category, sort);
     }
 
-    public void createArticleTags(List<ArticleTag> articleTags) {
-        articleTagRepository.saveAll(articleTags);
+    public void createArticleTags(Article article, List<String> kewords) {
+        List<ArticleTag> articleTags = new ArrayList<>();
+        for (String keword : kewords) {
+            if (articleTagRepository.existsByArticleIdAndTagId(article, keword)) {
+                ArticleTag articleTag = ArticleTag.builder().article(article).tag(Tag.builder().name(keword).build()).build();
+                articleTags.add(articleTag);
+            }
+            articleTagRepository.saveAll(articleTags);
+        }
     }
 }
