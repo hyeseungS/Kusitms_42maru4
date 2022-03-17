@@ -64,6 +64,7 @@ public class ArticleController {
         model.addAttribute("sort", "createdAt");
         model.addAttribute("categories", CategoryEnum.values());
         return "newsList";
+
     }
 
 
@@ -186,6 +187,11 @@ public class ArticleController {
                 .content(articleRequestDto.getContent())
                 .build();
         articleService.addNews(article);
+
+
+
+        String newscontent=articleRequestDto.getContent();
+        List<String> tags2=articleTagService.searchTags(newscontent);
 
         // 해시태그 받아오기
 //        String name;
