@@ -48,3 +48,5 @@ http://newsmaru-env.eba-bummm8x4.ap-northeast-2.elasticbeanstalk.com/
 ### :pushpin: Usage
 
 ### :pushpin: Reference
+
+공공 인공지능 오픈 API : https://aiopen.etri.re.kr/guide_wiseNLU.php
