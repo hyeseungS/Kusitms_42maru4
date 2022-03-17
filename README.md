@@ -5,7 +5,7 @@
 ### :pushpin: Team : 42MARU X 호두마루 (4조)
 - <p> API 개발, 화면 구성, 서버 구축, DB 구축 및 관리 : 신혜승, 한지혜 </p>
 - <p> 뉴스 키워드 추출 : 조선희, 최혜영 </p>
-- <p> 워드 클라우드를 통한 시각화 : 최민경 </p>
+- <p> 워드 클라우드를 통한 뉴스 키워드 시각화 : 최민경 </p>
 
 ### :pushpin: Description
 현대사회는 엄청난 정보의 홍수속에서 개인이 원하는 정보를 찾기 위해서 많은 시간이 필요합니다.
@@ -13,7 +13,7 @@
 
 이에 따라, **42MARU X 호두마루**는 **기계독해/요약모델 및 TextRank/공공 인공지능 오픈 API**를 활용하여 뉴스 키워드 추출과 함께 개인화된 뉴스 추천 서비스를 제공하고자 합니다.  
 
-### :pushpin: Development Environment / Language
+### :pushpin: Development Environment & Language
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Python-3766AB?style=flat-square&logo=Python&logoColor=white"/></a>
@@ -43,6 +43,10 @@
   - 조회 목록 삭제
 
 ### :pushpin: URL
-http://newsmaru-env.eba-bummm8x4.ap-northeast-2.elasticbeanstalk.com/
+www.newsmaru.tk
+
+### :pushpin: Usage
 
 ### :pushpin: Reference
+
+공공 인공지능 오픈 API : https://aiopen.etri.re.kr/guide_wiseNLU.php

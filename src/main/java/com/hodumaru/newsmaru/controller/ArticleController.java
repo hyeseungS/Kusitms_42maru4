@@ -7,10 +7,7 @@ import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.repository.ArticleTagRepository;
 import com.hodumaru.newsmaru.repository.TagRepository;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
-import com.hodumaru.newsmaru.service.ArticleService;
-import com.hodumaru.newsmaru.service.ArticleTagService;
-import com.hodumaru.newsmaru.service.ClipService;
-import com.hodumaru.newsmaru.service.ViewService;
+import com.hodumaru.newsmaru.service.*;
 import com.hodumaru.newsmaru.summary.SummaryRequest;
 import com.hodumaru.newsmaru.summary.SummaryResponse;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +44,7 @@ public class ArticleController {
     private final TagRepository tagRepository;
     private final ClipService clipService;
     private final ViewService viewService;
+    private final TagService tagService;
 
     @Value("${summary-api-username}")
     private String username;
@@ -58,7 +56,7 @@ public class ArticleController {
     @GetMapping("/articles")
     public String getNewsList(Model model) {
         List<Article> articles = articleRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
-        if(articles != null)
+        if (articles != null)
             model.addAttribute("articles", articles);
         model.addAttribute("checkedCategory", null);
         model.addAttribute("sort", "createdAt");
@@ -74,7 +72,7 @@ public class ArticleController {
                              @RequestParam("category") String categoryEnum, @RequestParam String sort) {
 
         CategoryEnum category = null;
-        if(!categoryEnum.equals(""))
+        if (!categoryEnum.equals(""))
             category = CategoryEnum.valueOf(categoryEnum);
 
         model.addAttribute("checkedCategory", category);
@@ -139,8 +137,8 @@ public class ArticleController {
 
         // 태그 정보
         List<Tag> tags = articleTagRepository.findByArticleId(articleId).stream()
-                                                .map(articleTag -> articleTag.getTag())
-                                                .collect(Collectors.toList());
+                .map(articleTag -> articleTag.getTag())
+                .collect(Collectors.toList());
         model.addAttribute("tags", tags);
     }
 
@@ -154,7 +152,7 @@ public class ArticleController {
         // Basic Auth 헤더 설정
         String auth = username + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(Charset.forName("US-ASCII")) );
+                auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", authHeader);
@@ -178,7 +176,7 @@ public class ArticleController {
     }
 
     // 뉴스 등록하기
-    @PostMapping("/articles/new")
+    @PostMapping("articles/new")
     public String addArticle(ArticleRequestDto articleRequestDto) {
 
         Article article = Article.builder()
@@ -188,6 +186,7 @@ public class ArticleController {
                 .build();
         articleService.addNews(article);
 
+<<<<<<< HEAD
 
 
         String newscontent=articleRequestDto.getContent();
@@ -202,6 +201,22 @@ public class ArticleController {
 //            tagRepository.save(tag);
 //        articleTagRepository.save(ArticleTag.builder().article(article).tag(tag).build());
 
+=======
+        // 해시태그 추출해서 저장
+//        List<String> kewords = new ArrayList<>();
+//        List<Tag> tags = new ArrayList<>();
+//        List<ArticleTag> articleTags = new ArrayList<>();
+//        for(String keword : kewords) {
+//            Tag tag = Tag.builder().name(keword).build();
+//            tags.add(tag);
+//            ArticleTag articleTag = ArticleTag.builder().article(article).tag(tag).build();
+//            articleTags.add(articleTag);
+//        }
+//        tagService.createTags(tags);
+//        articleTagService.createArticleTags(articleTags);
+//
+>>>>>>> 81303f2a3bf5e2de3c11841fd7f11626a20bab07
         return "redirect:/articles/new";
     }
+
 }

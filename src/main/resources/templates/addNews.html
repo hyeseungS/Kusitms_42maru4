@@ -11,28 +11,34 @@
         .container {
             margin-top: 50px;
         }
+
         form {
             width: 700px;
             margin: auto;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-control {
             width: 500px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             border-radius: 10px;
         }
+
         .form-select {
             width: 180px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             border-radius: 10px;
         }
+
         select option[value=""][disabled] {
             display: none;
         }
+
         .form-content {
             width: 700px;
             height: 250px;
@@ -43,10 +49,12 @@
             box-sizing: border-box;
             border-radius: 10px;
         }
+
         .error {
             border-color: #dc3545;
             color: #dc3545;
         }
+
         .btn {
             margin-top: 10px;
             float: right;
@@ -54,6 +62,7 @@
             color: #ffffff;
             background: rgba(23, 162, 184, 0.7);
         }
+
         .btn:hover {
             color: #ffffff;
             background: #17A2B8;
@@ -92,10 +101,11 @@
     <form action="/articles/new" method="post">
         <div class="form-group">
             <div class="d-flex justify-content-between">
-                <input class="form-control" name="title" type="text" placeholder="기사 제목을 입력하세요" required />
+                <input class="form-control" name="title" type="text" placeholder="기사 제목을 입력하세요" required/>
                 <select class="form-select" th:name="category" required>
                     <option value="" disabled selected>카테고리 선택</option>
-                    <option th:each="article : ${articles}" th:value="${article}" th:text="${article.getValue()}"></option>
+                    <option th:each="article : ${articles}" th:value="${article}"
+                            th:text="${article.getValue()}"></option>
                 </select>
             </div>
         </div>

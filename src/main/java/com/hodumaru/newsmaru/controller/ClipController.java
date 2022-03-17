@@ -1,13 +1,11 @@
 package com.hodumaru.newsmaru.controller;
 
-import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.security.UserDetailsImpl;
 import com.hodumaru.newsmaru.service.ClipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 

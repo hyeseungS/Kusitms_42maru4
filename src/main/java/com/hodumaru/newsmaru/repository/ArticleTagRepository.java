@@ -15,6 +15,7 @@ import java.util.List;
 public interface ArticleTagRepository extends JpaRepository<ArticleTag, Long> {
 
     List<ArticleTag> findByTagId(Long id);
+
     List<ArticleTag> findByArticleId(Long id);
 
     // 태그, 정렬 검색

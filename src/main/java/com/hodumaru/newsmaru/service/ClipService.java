@@ -3,7 +3,6 @@ package com.hodumaru.newsmaru.service;
 import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.model.Clip;
 import com.hodumaru.newsmaru.model.User;
-import com.hodumaru.newsmaru.model.View;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.repository.ClipRepository;
 import com.hodumaru.newsmaru.repository.UserRepository;
