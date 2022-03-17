@@ -6,7 +6,6 @@ import com.hodumaru.newsmaru.model.Clip;
 import com.hodumaru.newsmaru.model.User;
 import com.hodumaru.newsmaru.repository.ArticleRepository;
 import com.hodumaru.newsmaru.repository.ClipRepository;
-import com.hodumaru.newsmaru.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -30,13 +29,14 @@ public class ArticleService {
     public List<Integer> getGenderData(Long articleId) {
         List<Clip> clipData = clipRepository.findAllByArticleId(articleId);
         List<Integer> genderData = new ArrayList<>(2);
-        genderData.add(0); genderData.add(0);
-        for(Clip clip : clipData) {
+        genderData.add(0);
+        genderData.add(0);
+        for (Clip clip : clipData) {
             User user = clip.getUser();
             if (user.getGender() != 1) {
-                genderData.set(1, genderData.get(1)+1);
+                genderData.set(1, genderData.get(1) + 1);
             } else {
-                genderData.set(0, genderData.get(0)+1);
+                genderData.set(0, genderData.get(0) + 1);
             }
         }
         return genderData;
@@ -45,14 +45,17 @@ public class ArticleService {
     public List<Integer> getAgeData(Long articleId) {
         List<Clip> clipData = clipRepository.findAllByArticleId(articleId);
         List<Integer> ageData = new ArrayList<>(6);
-        ageData.add(0); ageData.add(0);
-        ageData.add(0); ageData.add(0);
-        ageData.add(0); ageData.add(0);
-        for(Clip clip : clipData) {
+        ageData.add(0);
+        ageData.add(0);
+        ageData.add(0);
+        ageData.add(0);
+        ageData.add(0);
+        ageData.add(0);
+        for (Clip clip : clipData) {
             User user = clip.getUser();
             int age = LocalDateTime.now().getYear() - user.getBirthday().getYear() + 1;
-            if(age>=10)
-                ageData.set(age/10-1, ageData.get(age/10-1)+1);
+            if (age >= 10)
+                ageData.set(age / 10 - 1, ageData.get(age / 10 - 1) + 1);
         }
         return ageData;
     }
@@ -62,7 +65,7 @@ public class ArticleService {
 
         Sort sort = Sort.by(Sort.Direction.DESC, sortProperty);
 
-        if(category == null)
+        if (category == null)
             return articleRepository.findAll(sort);
         else
             return articleRepository.findByCategory(category, sort);

@@ -153,7 +153,7 @@
 <!--  MY 뉴스  -->
 <div class="container">
     <div class="cropping">
-        <img src="image/mynewsimg.jpg" alt="hodumaru"/>
+        <img src="images/mynewsimg.jpg" alt="hodumaru"/>
         <div class="head" id="header-title-login-user">
             <span class="head-username" th:text="${username}"></span><span class="head-text"> 님의 뉴스마루</span>
         </div>
@@ -169,7 +169,7 @@
                 </a>
                 <a class="delete-btn link"
                    th:href="@{/mynews/unview/{articleId} (articleId=${view.id})}">
-                    <img class="delete-img" th:src="@{/image/delete.png}"/>
+                    <img class="delete-img" th:src="@{/images/delete.png}"/>
                 </a>
             </div>
         </div>

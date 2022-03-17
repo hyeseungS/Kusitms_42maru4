@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ArticleTag extends Timestamped{
+public class ArticleTag extends Timestamped {
 
     @Id
     @Column(name = "article_tag_id")

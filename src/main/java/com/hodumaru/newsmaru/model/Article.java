@@ -1,6 +1,7 @@
 package com.hodumaru.newsmaru.model;
 
 import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
