@@ -29,5 +29,5 @@ public interface ArticleTagRepository extends JpaRepository<ArticleTag, Long> {
             "where at.tag.id = :tagId and at.article.category = :category")
     List<Article> findByTagIdAndCategory(@Param("tagId") Long tagId, @Param("category") CategoryEnum category, Sort sort);
 
-    boolean existsByArticleIdAndTagId(Article article, String keword);
+    boolean existsByArticleIdAndTagId(Long articleId, Long tagId);
 }

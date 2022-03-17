@@ -44,7 +44,7 @@ public class ArticleController {
     private final TagRepository tagRepository;
     private final ClipService clipService;
     private final ViewService viewService;
-    private final TagService tagService;
+    private final KeywordService keywordService;
 
     @Value("${summary-api-username}")
     private String username;
@@ -62,6 +62,7 @@ public class ArticleController {
         model.addAttribute("sort", "createdAt");
         model.addAttribute("categories", CategoryEnum.values());
         return "newsList";
+
     }
 
 
@@ -130,7 +131,7 @@ public class ArticleController {
 
         // 조회 여부 확인
         View view = viewService.findByUserIdAndArticleId(userId, articleId).orElse(null);
-        if(view == null) {
+        if (view == null) {
             viewService.create(userId, articleId);
         }
 
@@ -175,7 +176,7 @@ public class ArticleController {
     }
 
     // 뉴스 등록하기
-    @PostMapping("articles/new")
+    @PostMapping("/articles/new")
     public String addArticle(ArticleRequestDto articleRequestDto) {
 
         Article article = Article.builder()
@@ -191,9 +192,11 @@ public class ArticleController {
 //        String result = restTemplate.getForObject(url, String.class);
 
         // 해시태그 추출해서 저장 (자바)
-        List<String> kewords = new ArrayList<>();
-        tagService.createTags(kewords);
-        articleTagService.createArticleTags(article, kewords);
+        String newsContent = article.getContent();
+        List<String> keywords = keywordService.searchTags(newsContent);
+        articleTagService.createArticleTags(article, keywords);
+
         return "redirect:/articles";
+
     }
 }

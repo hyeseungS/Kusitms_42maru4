@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleTagService {
 
+    private final TagRepository tagRepository;
     private final ArticleTagRepository articleTagRepository;
+
+    static public class Morpheme {
+        final String text;
+        final String type;
+        Integer count;
+
+        public Morpheme(String text, String type, Integer count) {
+            this.text = text;
+            this.type = type;
+            this.count = count;
+        }
+    }
+
+    static public class NameEntity implements Comparable<NameEntity> {
+        final String text;
+        final String type;
+        Integer count;
+
+        public NameEntity(String text, String type, Integer count) {
+            this.text = text;
+            this.type = type;
+            this.count = count;
+        }
+
+        @Override
+        public int compareTo(NameEntity o) {
+            return this.count.compareTo(o.count);
+        }
+    }
 
     public List<Article> searchNews(Long tagId, CategoryEnum category, String sortProperty) {
 
@@ -30,14 +61,21 @@ public class ArticleTagService {
             return articleTagRepository.findByTagIdAndCategory(tagId, category, sort);
     }
 
-    public void createArticleTags(Article article, List<String> kewords) {
+    public void createArticleTags(Article article, List<String> keywords) {
+        List<Tag> tags = new ArrayList<>();
         List<ArticleTag> articleTags = new ArrayList<>();
-        for (String keword : kewords) {
-            if (articleTagRepository.existsByArticleIdAndTagId(article, keword)) {
-                ArticleTag articleTag = ArticleTag.builder().article(article).tag(Tag.builder().name(keword).build()).build();
-                articleTags.add(articleTag);
+        for (String key : keywords) {
+            if (!tagRepository.existsByName(key)) {
+                Tag tag = Tag.builder().name(key).build();
+                tags.add(tag);
+                if (!articleTagRepository.existsByArticleIdAndTagId(article.getId(), tag.getId())) {
+                    ArticleTag articleTag = ArticleTag.builder().article(article).tag(tag).build();
+                    articleTags.add(articleTag);
+                }
             }
-            articleTagRepository.saveAll(articleTags);
         }
+
+        tagRepository.saveAll(tags);
+        articleTagRepository.saveAll(articleTags);
     }
 }
