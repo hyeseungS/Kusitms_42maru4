@@ -24,10 +24,13 @@ public class ClipService {
         return clipRepository.findByUserIdAndArticleId(userId, articleId);
     }
 
+    @Transactional
     public Clip create(Long userId, Long articleId) {
         User user = userRepository.findById(userId).get();
         Article article = articleRepository.findById(articleId).get();
         Clip clip = Clip.builder().user(user).article(article).build();
+
+        article.setClipCount(article.getClipCount() + 1); // 스크랩 수 증가
 
         return clipRepository.save(clip);
     }
@@ -35,5 +38,8 @@ public class ClipService {
     @Transactional
     public void delete(Long userId, Long articleId) {
         clipRepository.deleteByUserIdAndArticleId(userId, articleId);
+        Article article = articleRepository.findById(articleId).get();
+        article.setClipCount(article.getClipCount() - 1); // 스크랩 수 감소
+
     }
 }

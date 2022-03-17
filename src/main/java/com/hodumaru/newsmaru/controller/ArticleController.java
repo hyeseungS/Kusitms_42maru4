@@ -130,9 +130,8 @@ public class ArticleController {
 
         // 조회 여부 확인
         View view = viewService.findByUserIdAndArticleId(userId, articleId).orElse(null);
-        if (view == null) {
-            viewService.create(userId, articleId); // 조회 생성
-            article.setViewCount(article.getViewCount() + 1); //조회수 증가
+        if(view == null) {
+            viewService.create(userId, articleId);
         }
 
         // 태그 정보

@@ -25,10 +25,14 @@ public class ViewService {
         return viewRepository.findByUserIdAndArticleId(userId, articleId);
     }
 
-    public View create(Long userId, Long ArticleId) {
+    @Transactional
+    public View create(Long userId, Long articleId) {
         User user = userRepository.findById(userId).get();
-        Article article = articleRepository.findById(ArticleId).get();
+        Article article = articleRepository.findById(articleId).get();
         View view = View.builder().user(user).article(article).build();
+
+        article.setViewCount(article.getViewCount() + 1); // 조회 수 증가
+
 
         return viewRepository.save(view);
     }
@@ -36,5 +40,8 @@ public class ViewService {
     @Transactional
     public void delete(Long userId, Long articleId) {
         viewRepository.deleteByUserIdAndArticleId(userId, articleId);
+        Article article = articleRepository.findById(articleId).get();
+        article.setViewCount(article.getViewCount() - 1); // 조회 수 감소
+
     }
 }

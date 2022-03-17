@@ -5,6 +5,8 @@
 //import com.hodumaru.newsmaru.model.Article;
 //import com.hodumaru.newsmaru.model.CategoryEnum;
 //import com.hodumaru.newsmaru.model.User;
+//import com.hodumaru.newsmaru.service.ClipService;
+//import com.hodumaru.newsmaru.service.ViewService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.ApplicationArguments;
 //import org.springframework.boot.ApplicationRunner;
@@ -25,6 +27,8 @@
 //    @Autowired ClipRepository clipRepository;
 //    @Autowired TagRepository tagRepository;
 //    @Autowired ArticleTagRepository articleTagRepository;
+//    @Autowired ClipService clipService;
+//    @Autowired ViewService viewService;
 //
 //    @Override
 //    public void run(ApplicationArguments args) throws Exception {
@@ -74,21 +78,17 @@
 //        articleTagRepository.save(ArticleTag.builder().article(article3).tag(tag5).build());
 //
 //        // 테스트 View, Clip 생성
-//        View view1 = new View(testUser1, article3);
-//        View view2 = new View(testUser1,article4);
-//        Clip clip1 = new Clip(testUser1,article3);
-//        Clip clip2 = new Clip(testUser1,article4);
-//        view1 = viewRepository.save(view1);
-//        view2 = viewRepository.save(view2);
-//        clip1 = clipRepository.save(clip1);
-//        clip2 = clipRepository.save(clip2);
+//        View view1 = viewService.create(testUser1.getId(), article3.getId());
+//        View view2 = viewService.create(testUser1.getId(), article4.getId());
+//
+//        Clip clip1 = clipService.create(testUser1.getId(), article3.getId());
+//        Clip clip2 = clipService.create(testUser1.getId(), article4.getId());
 //
 //        // 테스트 그래프 데이터 생성
 //        for(int i=1; i<=10; i++) {
 //            User testUser = new User("user"+i, "user"+i+"@maru.com", passwordEncoder.encode("i"), 2, LocalDate.ofYearDay(1970+i*10, 10));
 //            testUser = userRepository.save(testUser);
-//            Clip clip = new Clip(testUser,article4);
-//            clipRepository.save(clip);
+//            clipService.create(testUser.getId(), article4.getId());
 //        }
 //    }
 //}
