@@ -2,10 +2,8 @@ package com.hodumaru.newsmaru.service;
 
 import com.google.gson.Gson;
 import com.hodumaru.newsmaru.model.Article;
-import com.hodumaru.newsmaru.model.ArticleTag;
 import com.hodumaru.newsmaru.model.CategoryEnum;
 import com.hodumaru.newsmaru.repository.ArticleTagRepository;
-import com.hodumaru.newsmaru.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -53,13 +51,12 @@ public class ArticleTagService {
         // ArticleTag.Article.sortProperty 로 정렬
         Sort sort = Sort.by(Sort.Direction.DESC, "article." + sortProperty);
 
-        if (category == null)
+        if(category == null)
             return articleTagRepository.findByTagId(tagId, sort);
         else
             return articleTagRepository.findByTagIdAndCategory(tagId, category, sort);
     }
 
-<<<<<<< HEAD
     public List<String> searchTags(String newscontent){
         List<String> tags=new ArrayList<>();
 
@@ -257,9 +254,5 @@ public class ArticleTagService {
         }
 
         return  tags;
-=======
-    public void createArticleTags(List<ArticleTag> articleTags) {
-        articleTagRepository.saveAll(articleTags);
->>>>>>> 81303f2a3bf5e2de3c11841fd7f11626a20bab07
     }
 }
