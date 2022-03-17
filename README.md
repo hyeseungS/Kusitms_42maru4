@@ -43,7 +43,7 @@
   - 조회 목록 삭제
 
 ### :pushpin: URL
-http://newsmaru-env.eba-bummm8x4.ap-northeast-2.elasticbeanstalk.com/
+www.newsmaru.tk
 
 ### :pushpin: Usage
 
