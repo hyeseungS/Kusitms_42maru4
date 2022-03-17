@@ -26,8 +26,4 @@ public class View extends Timestamped {
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
-    public View(User user, Article article) {
-        this.user = user;
-        this.article = article;
-    }
 }

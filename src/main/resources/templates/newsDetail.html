@@ -18,7 +18,7 @@
 
         .btn {
             width: 130px;
-            height: 60px;
+            height: 55px;
             color: #ffffff;
             background: rgba(23, 162, 184, 0.7);
             border-radius: 10px;
@@ -48,13 +48,21 @@
             font-weight: 700;
             font-size: 20px;
             height: 50px;
-            line-height: 50px;
             margin-bottom: 10px;
         }
 
         .article-detail-content {
             font-weight: 400;
             font-size: 16px;
+            height: 400px;
+            overflow: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .article-detail-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+            width: 0 !important;
         }
 
         .tag-container {
