@@ -1,5 +1,6 @@
 package com.hodumaru.newsmaru.repository;
 
+import com.hodumaru.newsmaru.model.Article;
 import com.hodumaru.newsmaru.model.Clip;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface ClipRepository extends JpaRepository<Clip, Long> {
     void deleteByUserIdAndArticleId(Long userId, Long ArticleId);
 
     List<Clip> findAllByArticleId(Long articleId);
+
+    List<Clip> findAllByUserGender(int gender);
 }

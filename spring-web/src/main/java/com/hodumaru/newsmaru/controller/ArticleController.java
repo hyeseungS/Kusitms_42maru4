@@ -143,6 +143,13 @@ public class ArticleController {
                 .map(articleTag -> articleTag.getTag())
                 .collect(Collectors.toList());
         model.addAttribute("tags", tags);
+
+        // 워드 클라우드
+//        String img = articleRepository.findById(articleId).getImage();
+//        byte[] bytes = (byte[]) img.get("base64");
+//        String base64ToString = new String(bytes);
+//
+//        model.addAttribute("img",base64ToString);
     }
 
     // 생성 요약 API 연동
@@ -188,6 +195,10 @@ public class ArticleController {
                 .content(articleRequestDto.getContent())
                 .build();
         articleService.addNews(article);
+        // 워드클라우드 저장 (파이썬)
+//        String url = "/extract/"+article.getId();
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(url, String.class);
 
         // 해시태그 추출해서 저장 (파이썬)
 //        String url = "/extract/"+article.getId();
