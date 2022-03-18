@@ -40,21 +40,22 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 30px;
-            font-weight: 800;
+            font-size: 34px;
+            font-weight: 700;
             color: white;
+            text-shadow: 2px 4px 2px gainsboro;
         }
 
         .head-username {
             font-size: 40px;
-            color: teal;
+            color: #30475E;
         }
 
         label {
             font-style: normal;
             font-weight: 700;
             line-height: 29px;
-            color: rgba(23, 162, 184, 0.7);;
+            color: rgba(23, 162, 184, 0.7);
         }
 
         .list-group {
@@ -67,8 +68,7 @@
         .article-group {
             display: flex;
             justify-content: space-between;
-            border: 3px solid rgba(23, 162, 184, 0.7);
-            box-shadow: 5px 5px 5px 5px gainsboro;
+            border: 2px solid rgba(23, 162, 184, 0.7);
             box-sizing: border-box;
             border-radius: 10px;
             margin: 5px 0px 20px 0px;
@@ -77,16 +77,25 @@
             height: 220px;
         }
 
-        .clip-group {
-            display: block;
+        .article-group:hover {
             border: 3px solid rgba(23, 162, 184, 0.7);
             box-shadow: 5px 5px 5px 5px gainsboro;
+        }
+
+        .clip-group {
+            display: block;
+            border: 2px solid rgba(23, 162, 184, 0.7);
             box-sizing: border-box;
             border-radius: 10px;
             margin: 5px 0px 20px 0px;
             padding: 15px 20px 15px 20px;
             width: 100%;
             height: 220px;
+        }
+
+        .clip-group:hover {
+            border: 3px solid rgba(23, 162, 184, 0.7);
+            box-shadow: 5px 5px 5px 5px gainsboro;
         }
 
         .article {
@@ -112,6 +121,12 @@
         }
 
         .delete-btn {
+            justify-self: end;
+        }
+
+        .delete-img:hover {
+            width : 17px;
+            height : 17px;
             justify-self: end;
         }
 
@@ -153,9 +168,9 @@
 <!--  MY 뉴스  -->
 <div class="container">
     <div class="cropping">
-        <img src="images/mynewsimg.jpg" alt="hodumaru"/>
+        <img src="images/mynews.jpg" alt="hodumaru"/>
         <div class="head" id="header-title-login-user">
-            <span class="head-username" th:text="${username}"></span><span class="head-text"> 님의 뉴스마루</span>
+            <span class="head-username" th:text="${username}"></span><span class="head-text">'s NEWSMARU</span>
         </div>
     </div>
     <div class="article-contatiner">
