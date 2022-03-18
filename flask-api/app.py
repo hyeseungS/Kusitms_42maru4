@@ -7,6 +7,8 @@ from flask_cors import CORS
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 
+from wordCloud import TagCloud
+
 load_dotenv()
 app = Flask(__name__)
 api = Api(app)
@@ -54,6 +56,40 @@ class Extract(Resource):
 
         # Flask에서 제공하는 json변환 함수
         return jsonify(rows[0])
+
+
+@api.route('/wordcloud/<int:article_id>')
+class MakeWordCloud(Resource):
+    def get(self, article_id):
+
+        # MySQL 서버에 접속하기
+        cur = mysql.connection.cursor()
+        # MySQL 명령어 실행하기
+        cur.execute("SELECT content FROM article WHERE article_id = %s", [article_id])
+        # article.content 읽어오기
+        rows = cur.fetchone()
+
+        data = rows[0]
+        print(data)
+        wordcloud = TagCloud()
+        wordcloud.make_wordcloud(data, article_id)
+
+        binary_image = convertToBinaryData(str(article_id)+'.jpg')
+
+        cur.execute("UPDATE article SET cloud_image = %s WHERE article_id = %s", [binary_image, article_id])
+        mysql.connection.commit()
+        cur.close()
+
+        return jsonify({"success": True})
+
+
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
+
+
 
 if __name__ == '__main__':
     app.secret_key = "123"
