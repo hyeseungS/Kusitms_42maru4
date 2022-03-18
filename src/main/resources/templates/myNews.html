@@ -27,9 +27,10 @@
 
         .cropping img {
             position: absolute;
+            width: 100%;
             max-height: initial;
-            margin-top: -5%;
             opacity: 0.5;
+            margin-top: -5%;
             vertical-align: middle;
         }
 
@@ -47,7 +48,7 @@
         }
 
         .head-username {
-            font-size: 40px;
+            font-size: 36px;
             color: #30475E;
         }
 
@@ -168,7 +169,7 @@
 <!--  MY 뉴스  -->
 <div class="container">
     <div class="cropping">
-        <img src="images/mynews.jpg" alt="hodumaru"/>
+        <img src="images/newsmaru.jpg" alt="hodumaru"/>
         <div class="head" id="header-title-login-user">
             <span class="head-username" th:text="${username}"></span><span class="head-text">'s NEWSMARU</span>
         </div>
