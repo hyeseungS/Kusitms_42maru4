@@ -147,6 +147,14 @@
             }
         });
     }
+    function cloud() {
+        //display 보이게 하기
+        document.getElementsByClassName("cloud-img").style.diplay = 'block';
+
+        //display 감추기
+        document.getElementsByClassName("article-detail-title").style.display = 'none';
+        document.getElementsByClassName("article-detail-content").style.display = 'none';
+    }
 </script>
 <!-- 헤더 -->
 <div class="header">
@@ -179,18 +187,17 @@
     <!-- 버튼 -->
     <div class="btn-container">
         <button class="btn" style="margin-right: 20px;" th:onclick="|summarize(${NewsDetailDto.id})|">뉴스 요약</button>
-        <button class="btn" th:onclick="">워드 클라우드</button>
+        <button class="btn" th:onclick="|cloud()|">워드 클라우드</button>
     </div>
 
     <!-- 뉴스 기사 -->
     <div class="article-detail-container" th:object="${NewsDetailDto}">
-        <div class="article-detail-title" th:text="*{title}"></div>
-        <div class="article-detail-content" th:text="*{content}"></div>
+        <div class="article-detail-title" th:text="*{title}" style="display: block"></div>
+        <div class="article-detail-content" th:text="*{content}" style="display: block"></div>
+        <img class="cloud-img" th:src="@{/images/hodumaru.jpg}" style="display: none"/>
     </div>
-    <!-- 워드 클라우드 -->
-    <div class="article-detail-container" type="hidden">>
-    </div>
-    <div style="display: flex; justify-content: space-between">
+
+    <div style="display: flex; justify-content: space-between;">
         <!-- 해시태그 -->
         <div class="tag-container">
             <a class="tag" th:each="tag : ${tags}" th:text="|# ${tag.name}|"

@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,8 +40,17 @@ public class Article extends Timestamped {
     @Column(name = "view_count")
     private int viewCount = 0;
 
-//    @Column(name = "cloud_image")
-//    private Blob image;
+    @Lob
+    @Column(name = "cloud_image")
+    private Blob image;
+
+    public InputStream getImageContent() throws SQLException {
+        if (getImage() == null) {
+            return null;
+        }
+        return getImage().getBinaryStream();
+    }
+
 
 }
 
