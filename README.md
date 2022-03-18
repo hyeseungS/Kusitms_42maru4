@@ -74,6 +74,7 @@ TextRank 알고리즘을 사용하여, 형태소 분석과 각 단어의 연관�
 - 사용한 
     - Matplotlib, Konlpy.tag, Twitter, WordCloud, PIL, Numpy
 
+------------
 ### :pushpin: Reference
 
 공공 인공지능 오픈 API : https://aiopen.etri.re.kr/guide_wiseNLU.php
