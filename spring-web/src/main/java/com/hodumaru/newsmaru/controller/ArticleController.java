@@ -27,9 +27,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -144,12 +150,6 @@ public class ArticleController {
                 .collect(Collectors.toList());
         model.addAttribute("tags", tags);
 
-        // 워드 클라우드
-//        String img = articleRepository.findById(articleId).getImage();
-//        byte[] bytes = (byte[]) img.get("base64");
-//        String base64ToString = new String(bytes);
-//
-//        model.addAttribute("img",base64ToString);
     }
 
     // 생성 요약 API 연동
@@ -196,14 +196,14 @@ public class ArticleController {
                 .build();
         articleService.addNews(article);
         // 워드클라우드 저장 (파이썬)
-//        String url = "/extract/"+article.getId();
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(url, String.class);
+        String cloudUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/wordcloud/"+article.getId();
+        RestTemplate restTemplate1 = new RestTemplate();
+        String cloudResult = restTemplate1.getForObject(cloudUrl, String.class);
 
         // 해시태그 추출해서 저장 (파이썬)
-//        String url = "/extract/"+article.getId();
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(url, String.class);
+        String tagUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/extract/"+article.getId();
+        RestTemplate restTemplate2 = new RestTemplate();
+        String tagResult = restTemplate2.getForObject(tagUrl, String.class);
 
         // 해시태그 추출해서 저장 (자바)
         String newsContent = article.getContent();
