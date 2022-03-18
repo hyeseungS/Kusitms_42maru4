@@ -78,13 +78,16 @@ public class ArticleController {
         model.addAttribute("checkedCategory", category);
         model.addAttribute("sort", sort);
         model.addAttribute("categories", CategoryEnum.values());
+        model.addAttribute("tag", tagName);
+
 
         // 태그 검색인 경우 -> ArticleTag 를 통해 조회
         if (!tagName.equals("")) {
             List<Article> articles = new ArrayList<>();
             Tag tag = tagRepository.findByName(tagName).orElse(null);
-            if (tag != null)
+            if (tag != null){
                 articles = articleTagService.searchNews(tag.getId(), category, sort);
+            }
             model.addAttribute("articles", articles);
         }
         // 태그 검색이 아닌 경우 -> Article 을 통해 조회

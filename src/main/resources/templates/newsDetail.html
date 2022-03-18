@@ -72,9 +72,12 @@
             color: #17A2B8;
         }
 
-        .tag {
+        .tag, .tag:hover, .tag:visited {
             display: inline-block;
             margin-right: 18px;
+            text-decoration: none;
+            color: #17A2B8;
+
         }
 
         img {
@@ -188,7 +191,8 @@
     <div style="display: flex; justify-content: space-between">
         <!-- 해시태그 -->
         <div class="tag-container">
-            <div class="tag" th:each="tag : ${tags}" th:text="|# ${tag.name}|"></div>
+            <a class="tag" th:each="tag : ${tags}" th:text="|# ${tag.name}|"
+                th:href="@{/articles/search(tag=${tag.name}, category='', sort='createdAt')}"></a>
         </div>
 
         <!-- 스크랩 버튼 -->
