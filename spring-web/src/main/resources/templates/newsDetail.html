@@ -149,11 +149,7 @@
     }
     function cloud() {
         //display 보이게 하기
-        document.getElementsByClassName("cloud-img").style.diplay = 'block';
-
-        //display 감추기
-        document.getElementsByClassName("article-detail-title").style.display = 'none';
-        document.getElementsByClassName("article-detail-content").style.display = 'none';
+        document.getElementsByClassName("cloud-img").style.visibility = 'visible';
     }
 </script>
 <!-- 헤더 -->
@@ -194,7 +190,6 @@
     <div class="article-detail-container" th:object="${NewsDetailDto}">
         <div class="article-detail-title" th:text="*{title}" style="display: block"></div>
         <div class="article-detail-content" th:text="*{content}" style="display: block"></div>
-        <img class="cloud-img" th:src="@{/images/hodumaru.jpg}" style="display: none"/>
     </div>
 
     <div style="display: flex; justify-content: space-between;">
@@ -216,6 +211,8 @@
 
     <!-- 요약 내용 -->
     <div class="summary"></div>
+    <!-- 워드 클라우드-->
+    <img class="cloud-img" th:src="@{/wordcloud/{articleId}.jpg (articleId=${articleId})}" style="visibility: hidden"/>
     <!-- 그래프 -->
     <div class="summary"></div>
     <hr class="line">
