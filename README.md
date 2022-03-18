@@ -25,6 +25,9 @@
 <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/></a>
 
+### :pushpin: URL
+www.newsmaru.tk
+
 ### :pushpin: Feature
 - 로그인/회원가입
 - 뉴스 등록
@@ -43,9 +46,6 @@
   - 회원별 조회/스크랩 목록 조회
   - 회원별 추천 뉴스(성별에 따라)
   - 조회 목록 삭제
-
-### :pushpin: URL
-www.newsmaru.tk
 
 ### :pushpin: Usage
 요약모델과 키워드 추출을 통해 사용자가 방대한 뉴스 내용을 정리하여 보다 쉽게 이해할 수 있으며,
