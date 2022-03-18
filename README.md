@@ -71,7 +71,7 @@ TextRank 알고리즘을 사용하여, 형태소 분석과 각 단어의 연관�
 
 ✨ Python 
 
-- 사용한 
+- 사용한 라이브러리
     - Matplotlib, Konlpy.tag, Twitter, WordCloud, PIL, Numpy
 
 ------------
