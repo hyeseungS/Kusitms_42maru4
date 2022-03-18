@@ -9,12 +9,25 @@
     <title>MY 뉴스</title>
     <style>
         .container {
-            margin-top: 15px;
-            margin-bottom: 30px;
+            margin: 0 auto;
         }
 
-        .article-contatiner {
+        .article-container {
             margin: 30px 10px 0px 70px;
+            vertical-align: top;
+            height: 500px;
+            overflow: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .article-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+            width: 0 !important;
+        }
+
+        .recommend-container {
+            margin: 30px 70px 0px 70px;
             vertical-align: top;
         }
 
@@ -57,6 +70,14 @@
             font-weight: 700;
             line-height: 29px;
             color: rgba(23, 162, 184, 0.7);
+        }
+
+        .recommend-label {
+            font-style: normal;
+            font-weight: 700;
+            line-height: 29px;
+            color: rgba(23, 162, 184, 0.7);
+            margin-left: 50px;
         }
 
         .list-group {
@@ -137,6 +158,33 @@
             justify-self: end;
         }
 
+        .line {
+            margin: 30px 0px 30px 0px;
+            color: #6D8299;
+        }
+
+        .recommend-list {
+            display: grid;
+            width: 100%;
+            text-align: center;
+            grid-template-columns: 540px 540px;
+            grid-template-rows: 250px 250px;
+        }
+
+        .recommend-group {
+            border: 2px solid rgba(23, 162, 184, 0.7);
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin: 5px 0px 20px 50px;
+            padding: 15px 20px 15px 20px;
+            height: 220px;
+        }
+
+        .recommend-group:hover {
+            border: 3px solid rgba(23, 162, 184, 0.7);
+            box-shadow: 5px 5px 5px 5px gainsboro;
+        }
+
     </style>
     <script>
     </script>
@@ -174,7 +222,7 @@
             <span class="head-username" th:text="${username}"></span><span class="head-text">'s NEWSMARU</span>
         </div>
     </div>
-    <div class="article-contatiner">
+    <div class="article-container">
         <div class="list-group">
             <label>조회 목록</label>
             <div class="article-group" th:each="view : ${views}">
@@ -197,6 +245,17 @@
                 <div class="article-content" th:text="${clip.content}"></div>
             </a>
         </div>
+    </div>
+    <hr class="line">
+        <div class="recommend-container">
+        <label class="recommend-label">추천 뉴스</label>
+            <div class="recommend-list">
+        <a class="recommend-group link" th:each="recommend : ${recommends}"
+           th:href="@{/articles/{articleId}(articleId=${recommend.id})}">
+            <div class="article-title" th:text="${recommend.title}"></div>
+            <div class="article-content" th:text="${recommend.content}"></div>
+        </a>
+    </div>
     </div>
 </div>
 </body>

@@ -54,4 +54,21 @@ public class MyNewsService {
         }
         return articleList;
     }
+
+    // 추천 기사
+    public List<Article> getRecommendService(User user) {
+        Long userId = user.getId();
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        List<View> viewList = viewRepository.findAllByUserGender(user.getGender(), sort);
+        List<Article> articleList = new ArrayList<>();
+        for (View view : viewList) {
+            Article article = articleRepository.findById(view.getArticle().getId())
+                    .orElseThrow(() -> new NullPointerException("해당 기사 아이디가 존재하지 않습니다."));
+            if(!articleList.contains(article))
+                articleList.add(article);
+            if(articleList.size() == 4) break;
+        }
+
+        return articleList;
+    }
 }

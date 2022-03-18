@@ -179,7 +179,7 @@
     <!-- 버튼 -->
     <div class="btn-container">
         <button class="btn" style="margin-right: 20px;" th:onclick="|summarize(${NewsDetailDto.id})|">뉴스 요약</button>
-        <button class="btn">워드 클라우드</button>
+        <button class="btn" th:onclick="">워드 클라우드</button>
     </div>
 
     <!-- 뉴스 기사 -->
@@ -187,7 +187,9 @@
         <div class="article-detail-title" th:text="*{title}"></div>
         <div class="article-detail-content" th:text="*{content}"></div>
     </div>
-
+    <!-- 워드 클라우드 -->
+    <div class="article-detail-container" type="hidden">>
+    </div>
     <div style="display: flex; justify-content: space-between">
         <!-- 해시태그 -->
         <div class="tag-container">
@@ -207,7 +209,6 @@
 
     <!-- 요약 내용 -->
     <div class="summary"></div>
-
     <!-- 그래프 -->
     <div class="summary"></div>
     <hr class="line">
