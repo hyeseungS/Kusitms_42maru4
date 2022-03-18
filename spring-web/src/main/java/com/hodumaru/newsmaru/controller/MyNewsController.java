@@ -28,7 +28,8 @@ public class MyNewsController {
         model.addAttribute("views", viewList);
         List<Article> clipList = mynewsService.getClipArticles(userDetails.getUser());
         model.addAttribute("clips", clipList);
-
+        List<Article> recommendList = mynewsService.getRecommendService(userDetails.getUser());
+        model.addAttribute("recommends", recommendList);
         return "myNews";
     }
 

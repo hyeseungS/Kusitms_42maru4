@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.sql.Blob;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,9 +38,8 @@ public class Article extends Timestamped {
     @Column(name = "view_count")
     private int viewCount = 0;
 
-    public Article(String title, String content, CategoryEnum category) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-    }
+//    @Column(name = "cloud_image")
+//    private Blob image;
+
 }
+
