@@ -50,7 +50,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             log.info("error={}", bindingResult);
-            return "/signup";
+            return "signup";
         }
 
         User user = User.builder()
