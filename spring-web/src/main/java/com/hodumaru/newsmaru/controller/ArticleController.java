@@ -27,12 +27,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -187,7 +189,7 @@ public class ArticleController {
 
     // 뉴스 등록하기
     @PostMapping("/articles/new")
-    public String addArticle(ArticleRequestDto articleRequestDto) {
+    public String addArticle(ArticleRequestDto articleRequestDto) throws SQLException, IOException {
 
         Article article = Article.builder()
                 .title(articleRequestDto.getTitle())
@@ -210,7 +212,22 @@ public class ArticleController {
         List<String> keywords = keywordService.searchTags(newsContent);
         articleTagService.createArticleTags(article, keywords);
 
-        return "redirect:/articles";
+//        InputStream binaryStream = article.getImage().getBinaryStream();
+//        byte[] image = binaryStream.readAllBytes();
+//        Path path = Paths.get(article.getId() + ".jpg");
+//        Files.write(path, image);
 
+        return "redirect:/test/" + article.getId();
+    }
+
+    @GetMapping("/test/{articleId}")
+    public String test(@PathVariable Long articleId) throws SQLException, IOException {
+        Article article = articleRepository.findById(articleId).get();
+        InputStream binaryStream = article.getImage().getBinaryStream();
+        byte[] image = binaryStream.readAllBytes();
+        Path path = Paths.get("./src/main/resources/static/wordcloud/"+ articleId + ".jpg");
+        Files.write(path, image);
+
+        return "redirect:/articles";
     }
 }
