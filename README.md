@@ -61,6 +61,19 @@ TextRank 알고리즘을 사용하여, 형태소 분석과 각 단어의 연관�
 
 두 방법을 사용해 키워드를 추출하여 더욱 다양하고 정확도 있는 키워드 추출을 진행하였습니다.
 
+### 시각화
+------------
+✨ R 
+
+- 사용한 라이브러리
+    - KoNLP, WordCloud, WordCloud2, Remotes, Multilinguer
+    - Trouble Shooting: To install KoNLP Package in Rstudio 4.1.3 -> Download "multilinguer" and "remotes" library 
+
+✨ Python 
+
+- 사용한 
+    - Matplotlib, Konlpy.tag, Twitter, WordCloud, PIL, Numpy
+
 ### :pushpin: Reference
 
 공공 인공지능 오픈 API : https://aiopen.etri.re.kr/guide_wiseNLU.php
