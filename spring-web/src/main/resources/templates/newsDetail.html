@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/header.css">
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- 차트 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <title>뉴스 상세보기</title>
+    <style>
+        .container {
+            width: 700px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            width: 130px;
+            height: 55px;
+            color: #ffffff;
+            background: rgba(23, 162, 184, 0.7);
+            border-radius: 10px;
+        }
+
+        .btn:hover {
+            color: #ffffff;
+            background: #17A2B8;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .article-detail-container {
+            width: 100%;
+            border: 1px solid #17A2B8;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding: 30px 40px;
+            margin: 16px 0;
+        }
+
+        .article-detail-title {
+            font-weight: 700;
+            font-size: 20px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        .article-detail-content {
+            font-weight: 400;
+            font-size: 16px;
+            height: 400px;
+            overflow: auto;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .article-detail-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+            width: 0 !important;
+        }
+
+        .tag-container {
+            font-weight: 400;
+            font-size: 18px;
+            max-width: calc(100% - 60px);
+            color: #17A2B8;
+        }
+
+        .tag, .tag:hover, .tag:visited {
+            display: inline-block;
+            margin-right: 18px;
+            text-decoration: none;
+            color: #17A2B8;
+
+        }
+
+        img {
+            width: 45px;
+            height: 45px;
+            justify-self: end;
+        }
+
+        .summary {
+            font-weight: 400;
+            font-size: 18px;
+            color: #17A2B8;
+            margin-top: 20px;
+        }
+
+        .line {
+            margin: 30px 0px 30px 0px;
+            color: #6D8299;
+        }
+
+        .chart {
+            font-weight: 400;
+            font-size: 18px;
+            color: #17A2B8;
+        }
+
+        .py-group {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0px 30px 0px;
+        }
+
+        .py1 {
+            display: inline-block;
+            width: 32%;
+        }
+
+        .py2 {
+            display: inline-block;
+            margin-left: 50px;
+            width: 35%;
+        }
+    </style>
+</head>
+<body>
+<script>
+    function summarize(articleId) {
+        const content = document.getElementsByClassName("article-detail-content")[0];
+        $.ajax({
+            type: "POST",
+            url: `/articles/${articleId}/summarize`,
+            data: JSON.stringify({
+                "net_input": [
+                    {
+                        "article": content.innerText
+                    }
+                ],
+                "extractive": false
+            }),
+            contentType: "application/json",
+            success: function (data) {
+                const summary = document.getElementsByClassName("summary")[0];
+                summary.innerText = JSON.stringify(data.summary).replace("\"{", "").replace("}\"", "");
+            },
+            failure: function (errMsg) {
+                alert(errMsg);
+            }
+        });
+    }
+</script>
+<!-- 헤더 -->
+<div class="header">
+    <div class="logo">42MARU X 호두마루</div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/articles/new">뉴스 등록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/articles">뉴스 보기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/mynews">MY 뉴스</a>
+                    </li>
+                    <li class="nav-item">
+                        <a sec:authorize="isAuthenticated()" class="nav-link" href="/user/logout">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="nav-link" href="/user/login">로그인</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+
+    <!-- 버튼 -->
+    <div class="btn-container">
+        <button class="btn" style="margin-right: 20px;" th:onclick="|summarize(${NewsDetailDto.id})|">뉴스 요약</button>
+        <button class="btn">워드 클라우드</button>
+    </div>
+
+    <!-- 뉴스 기사 -->
+    <div class="article-detail-container" th:object="${NewsDetailDto}">
+        <div class="article-detail-title" th:text="*{title}"></div>
+        <div class="article-detail-content" th:text="*{content}"></div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between">
+        <!-- 해시태그 -->
+        <div class="tag-container">
+            <a class="tag" th:each="tag : ${tags}" th:text="|# ${tag.name}|"
+                th:href="@{/articles/search(tag=${tag.name}, category='', sort='createdAt')}"></a>
+        </div>
+
+        <!-- 스크랩 버튼 -->
+        <a th:if="${isClipped} == true" th:href="@{/unclip/{articleId}(articleId=${NewsDetailDto.id})}">
+            <img th:src="@{/images/fill-star.svg}"/>
+        </a>
+
+        <a th:if="${isClipped} == false" th:href="@{/clip/{articleId}(articleId=${NewsDetailDto.id})}">
+            <img th:src="@{/images/empty-star.svg}"/>
+        </a>
+    </div>
+
+    <!-- 요약 내용 -->
+    <div class="summary"></div>
+
+    <!-- 그래프 -->
+    <div class="summary"></div>
+    <hr class="line">
+    <div class="chart">누가 스크랩을 했을까요?</div>
+    <div class="py-group">
+        <div class="py1">
+            <canvas id="chDonut1" width="300" height="300"></canvas>
+        </div>
+        <div class="py2">
+            <canvas id="chDonut2" width="300" height="300"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+<script th:inline="javascript">
+
+    function chartData() {
+        // 성별, 연령별 데이터
+        /*<![CDATA[*/
+        var genderData = [[${GenderDatas}]];
+        var ageData = [[${AgeDatas}]];
+
+
+        // chart colors
+        var colors = ['#676fa3', '#cddeff', '#d77fa1', '#baabda', '#d6e5fa', '#fff9f9'];
+        /* 2 donut charts */
+        var donutOptions = {
+            cutoutPercentage: 0, //도넛두께 : 값이 클수록 얇아짐
+            legend: {
+                position: 'bottom',
+                padding: 5,
+                labels: {
+                    pointStyle: 'circle',
+                    usePointStyle: true,
+                    pointRadius: 1,
+                    pointWidth: 1,
+                    fontSize: 10
+                }
+            }
+        };
+        // donut 1
+        var chDonutData1 = {
+            labels: ['남성', '여성'],
+            datasets: [{
+                backgroundColor: colors.slice(0, 2),
+                borderWidth: 1,
+                data: genderData,
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    cutoutPercentage: 50,
+                    segmentShowStroke: true
+                }
+            }]
+        };
+        var chDonut1 = document.getElementById("chDonut1");
+        if (chDonut1) {
+            new Chart(chDonut1, {type: 'pie', data: chDonutData1, options: donutOptions});
+        }
+        // donut 2
+        var chDonutData2 = {
+            labels: ['10대', '20대', '30대', '40대', '50대', '60대 이상'],
+            datasets: [{
+                backgroundColor: colors.slice(0, 6),
+                borderWidth: 1,
+                data: ageData,
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    cutoutPercentage: 50,
+                    segmentShowStroke: true
+                }
+            }],
+        };
+        var chDonut2 = document.getElementById("chDonut2");
+        if (chDonut2) {
+            new Chart(chDonut2, {type: 'pie', data: chDonutData2, options: donutOptions});
+        }
+        /*]]>*/
+    }
+
+    chartData();
+
+</script>
+</body>
+</html>
