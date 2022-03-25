@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ArticleTagRepository extends JpaRepository<ArticleTag, Long> {
@@ -30,4 +31,8 @@ public interface ArticleTagRepository extends JpaRepository<ArticleTag, Long> {
     List<Article> findByTagIdAndCategory(@Param("tagId") Long tagId, @Param("category") CategoryEnum category, Sort sort);
 
     boolean existsByArticleIdAndTagId(Long articleId, Long tagId);
+
+    Optional<ArticleTag> findByArticleIdAndTagId(Long articleId, Long tagId);
+
+
 }

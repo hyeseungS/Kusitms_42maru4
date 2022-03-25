@@ -9,6 +9,7 @@ import com.hodumaru.newsmaru.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,21 +61,22 @@ public class ArticleTagService {
             return articleTagRepository.findByTagIdAndCategory(tagId, category, sort);
     }
 
+
+    @Transactional
     public void createArticleTags(Article article, List<String> keywords) {
-        List<Tag> tags = new ArrayList<>();
         List<ArticleTag> articleTags = new ArrayList<>();
         for (String key : keywords) {
             if (!tagRepository.existsByName(key)) {
                 Tag tag = Tag.builder().name(key).build();
-                tags.add(tag);
-                if (!articleTagRepository.existsByArticleIdAndTagId(article.getId(), tag.getId())) {
-                    ArticleTag articleTag = ArticleTag.builder().article(article).tag(tag).build();
-                    articleTags.add(articleTag);
-                }
+                tagRepository.save(tag);
+            }
+            Tag tag = tagRepository.findByName(key).orElse(null);
+            if (!articleTagRepository.existsByArticleIdAndTagId(article.getId(), tag.getId())) {
+                ArticleTag articleTag = ArticleTag.builder().article(article).tag(tag).build();
+                articleTags.add(articleTag);
             }
         }
 
-        tagRepository.saveAll(tags);
         articleTagRepository.saveAll(articleTags);
     }
 }

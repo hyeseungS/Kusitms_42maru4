@@ -2,6 +2,8 @@ package com.hodumaru.newsmaru.service;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,6 +15,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class KeywordService {
+
+    @Autowired ResourceLoader resourceLoader;
+
     public List<String> searchTags(String newsContent) {
         List<String> tags = new ArrayList<>();
 
@@ -127,19 +132,17 @@ public class KeywordService {
                 });
             }
 
-            BufferedReader reader2 = new BufferedReader(
-                    new FileReader("src/main/resources/stopwordlist.txt")
-            );
+            // jar 파일 빌드 시, resource 찾기
+            InputStream inputStream = resourceLoader.getResource("classpath:stopwordlist.txt").getInputStream();
 
             String stopwordstr;
             List<String> stopwordlist = new ArrayList<String>();
-            while ((stopwordstr = reader2.readLine()) != null) {
-                String[] word = stopwordstr.split(" ");
-                for (int i = 0; i < word.length; i++) {
-                    stopwordlist.add(word[i]);
-                }
+
+            stopwordstr = inputStream.readAllBytes().toString();
+            String[] word = stopwordstr.split(" ");
+            for (int i = 0; i < word.length; i++) {
+                stopwordlist.add(word[i]);
             }
-            reader2.close();
 
             ArrayList<ArticleTagService.NameEntity> totallist = new ArrayList<ArticleTagService.NameEntity>();
 
@@ -200,7 +203,7 @@ public class KeywordService {
             for (int i = 0; i < totallist.size(); i++) {
                 if (totallist.get(i).count >= 4) {
                     tags.add(totallist.get(i).text);
-                    System.out.println(totallist.get(i).text);
+//                    System.out.println(totallist.get(i).text);
                 }
             }
         } catch (MalformedURLException e) {

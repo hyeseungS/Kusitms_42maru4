@@ -120,6 +120,11 @@
             margin-left: 50px;
             width: 35%;
         }
+
+        .cloud-img {
+            width: 500px;
+            height: 400px;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +154,7 @@
     }
     function cloud() {
         //display 보이게 하기
-        document.getElementsByClassName("cloud-img").style.visibility = 'visible';
+        document.getElementsByClassName("cloud-img")[0].style.display = 'block';
     }
 </script>
 <!-- 헤더 -->
@@ -212,7 +217,8 @@
     <!-- 요약 내용 -->
     <div class="summary"></div>
     <!-- 워드 클라우드-->
-    <img class="cloud-img" th:src="@{/wordcloud/{articleId}.jpg (articleId=${articleId})}" style="visibility: hidden"/>
+    <img class="cloud-img"
+         th:src="'data:image/jpg;base64,'+ ${wordcloud}" style="display: none" />
     <!-- 그래프 -->
     <div class="summary"></div>
     <hr class="line">

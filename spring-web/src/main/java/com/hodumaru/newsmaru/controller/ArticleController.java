@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,17 +30,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -53,6 +50,7 @@ public class ArticleController {
     private final ClipService clipService;
     private final ViewService viewService;
     private final KeywordService keywordService;
+    private final ResourceLoader resourceLoader;
 
     @Value("${summary-api-username}")
     private String username;
@@ -93,7 +91,7 @@ public class ArticleController {
         if (!tagName.equals("")) {
             List<Article> articles = new ArrayList<>();
             Tag tag = tagRepository.findByName(tagName).orElse(null);
-            if (tag != null){
+            if (tag != null) {
                 articles = articleTagService.searchNews(tag.getId(), category, sort);
             }
             model.addAttribute("articles", articles);
@@ -139,6 +137,19 @@ public class ArticleController {
                 .build();
 
         model.addAttribute("NewsDetailDto", newsDetailDto);
+
+        // 워드 클라우드
+        try {
+            InputStream binaryStream = article.getImage().getBinaryStream();
+            byte[] image = binaryStream.readAllBytes();
+            String imageStr = Base64.encodeBase64String(image);
+
+            model.addAttribute("wordcloud", imageStr);
+
+        } catch (Exception e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
+        }
+
 
         // 조회 여부 확인
         View view = viewService.findByUserIdAndArticleId(userId, articleId).orElse(null);
@@ -197,37 +208,29 @@ public class ArticleController {
                 .content(articleRequestDto.getContent())
                 .build();
         articleService.addNews(article);
-        // 워드클라우드 저장 (파이썬)
-        String cloudUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/wordcloud/"+article.getId();
-        RestTemplate restTemplate1 = new RestTemplate();
-        String cloudResult = restTemplate1.getForObject(cloudUrl, String.class);
 
-        // 해시태그 추출해서 저장 (파이썬)
-        String tagUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/extract/"+article.getId();
-        RestTemplate restTemplate2 = new RestTemplate();
-        String tagResult = restTemplate2.getForObject(tagUrl, String.class);
+        try {
+//             워드클라우드 저장 (파이썬)
+            String cloudUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/wordcloud/" + article.getId();
+            RestTemplate restTemplate1 = new RestTemplate();
+            ResponseEntity<String> cloudResponse = restTemplate1.getForEntity(cloudUrl, String.class);
 
-        // 해시태그 추출해서 저장 (자바)
-        String newsContent = article.getContent();
-        List<String> keywords = keywordService.searchTags(newsContent);
-        articleTagService.createArticleTags(article, keywords);
+            // 해시태그 추출해서 저장 (파이썬)
+            String tagUrl = "http://ec2-3-35-8-193.ap-northeast-2.compute.amazonaws.com:4000/extract/"+article.getId();
+            RestTemplate restTemplate2 = new RestTemplate();
+            ResponseEntity<String> tagResponse = restTemplate2.getForEntity(tagUrl, String.class);
 
-//        InputStream binaryStream = article.getImage().getBinaryStream();
-//        byte[] image = binaryStream.readAllBytes();
-//        Path path = Paths.get(article.getId() + ".jpg");
-//        Files.write(path, image);
+            // 해시태그 추출해서 저장 (자바)
+            String newsContent = article.getContent();
+            List<String> keywords = keywordService.searchTags(newsContent);
+            articleTagService.createArticleTags(article, keywords);
 
-        return "redirect:/test/" + article.getId();
-    }
-
-    @GetMapping("/test/{articleId}")
-    public String test(@PathVariable Long articleId) throws SQLException, IOException {
-        Article article = articleRepository.findById(articleId).get();
-        InputStream binaryStream = article.getImage().getBinaryStream();
-        byte[] image = binaryStream.readAllBytes();
-        Path path = Paths.get("./src/main/resources/static/wordcloud/"+ articleId + ".jpg");
-        Files.write(path, image);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
 
         return "redirect:/articles";
+
     }
+
 }
