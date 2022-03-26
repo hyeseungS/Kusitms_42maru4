@@ -30,11 +30,18 @@ www.newsmaru.tk
 
 ### :pushpin: Feature
 - 로그인/회원가입
+
+<img width="450" alt="로그인" src="https://user-images.githubusercontent.com/73929840/160227523-64a55482-2701-4dba-aa27-e7f5cd39822b.png"><img width="510" alt="뉴스마루-상세보기3" src="https://user-images.githubusercontent.com/73929840/160228263-7fe3959b-c373-4f9e-ade3-7d886509b745.png">
+
 - 뉴스 등록
+<img width="500" alt="뉴스등록" src="https://user-images.githubusercontent.com/73929840/160227538-7356bbe4-4004-4d03-a9b0-13a6511a294a.png">
+
 - 뉴스 보기
   - 해시태그 검색
   - 카테고리별 필터
   - 뉴스 정렬
+<img width="500" alt="뉴스보기" src="https://user-images.githubusercontent.com/73929840/160227552-3754888c-ee52-4bec-8c83-e5d9ca140544.png">
+
 - 뉴스 상세보기
   - 요약 모델
   - 키워드 추출(해시태그)
@@ -42,10 +49,15 @@ www.newsmaru.tk
   - 스크랩
   - 성별/연령별 스크랩 통계
 
+<img width="450" alt="상세보기" src="https://user-images.githubusercontent.com/73929840/160227606-c7cc9a32-4aca-4108-b7ab-b37f48ac6a94.png"><img width="510" alt="상세보기2" src="https://user-images.githubusercontent.com/73929840/160228631-34854713-93b6-4ab7-be30-641c8ba203ee.png">
+
+
 - MY 뉴스
   - 회원별 조회/스크랩 목록 조회
   - 회원별 추천 뉴스(성별에 따라)
   - 조회 목록 삭제
+
+<img width="500" alt="MY뉴스" src="https://user-images.githubusercontent.com/73929840/160227571-1d1954c2-2caf-4b65-b052-a5d8cd23e91e.png"><img width="500" alt="MY뉴스2" src="https://user-images.githubusercontent.com/73929840/160227575-abc9b4d7-daf6-4e37-8a69-bacc007ae62e.png">
 
 ### :pushpin: Usage
 요약모델과 키워드 추출을 통해 사용자가 방대한 뉴스 내용을 정리하여 보다 쉽게 이해할 수 있으며,
